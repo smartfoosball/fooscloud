@@ -1,0 +1,7 @@
+M2M_HOST = '127.0.0.1'
+M2M_PORT = 5672
+VHOST = '/'
+M2M_USER = 'guest'
+M2M_PWD = 'guest'
+
+ALLOWED_PRODUCT_KEYS = []
