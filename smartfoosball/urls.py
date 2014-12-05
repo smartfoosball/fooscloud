@@ -14,5 +14,12 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.Index.as_view(), name="index"), # html
+
+    url(r'^register/(.+)', views.PlayerRegister.as_view(), name="player_reg"),
+    url(r'^player/(.+)/creategame', views.GameCreate.as_view(), name="game_create"),
+    url(r'^game/(.+)/player/(.+)/position/(\d+)/(\d+)', views.GamePosition.as_view(), name="game_pos"),
     url(r'^game/(.+)/score_board', views.GameScore.as_view(), name="game_score"), # html
+    # simulater
+    #'/db/game/(.+)/player/(\d+)/goal/(\d+)', 'PlayerGoal',
+
 )

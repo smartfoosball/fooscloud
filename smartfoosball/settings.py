@@ -1,4 +1,9 @@
 """
+
+requirement:
+enum34
+
+
 Django settings for smartfoosball project.
 
 For more information on this file, see
