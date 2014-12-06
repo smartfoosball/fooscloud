@@ -1,0 +1,165 @@
+@charset "utf-8";
+/* CSS Document */
+*{ padding:0; margin:0; }
+.font {
+	font-family:"微软雅黑";
+	text-align:center;
+	font-weight:bolder;
+	margin-top:20%;
+	text-shadow: #555 0px 2px 1px, #555 2px 0px 1px, #555 -2px 0px 1px, #555 0px -2px 1px, #555 -1.4px -1.4px 1px, #555 1.4px 1.4px 1px, #555 1.4px -1.4px 1px, #555 -1.4px 1.4px 1px;
+}
+.box{
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-color:#fff2e5;
+	text-align:center;
+}
+.box1 {
+	top:0;
+	left:0;
+}
+.box2 {
+	top:100%;
+	left:0;
+}
+.box1 .home_top,.box2 .home_top{
+	width:100%;
+}
+.box1 .pet_info {
+	margin:5%;
+	color:#fff;
+}
+.box1 .pet_info>img {
+	width:20%;
+}
+.box1 .pet_info p {
+	display:inline-block;
+	max-width:70%;
+	margin:0;
+	word-wrap:break-word;
+	vertical-align:middle;
+	text-align:left;
+	font-size:1.2em;
+	line-height: 30px;
+}
+.box1 .home_temp{
+	margin:5%;
+	color:#ff9899;
+}
+.box1 .home_wet {
+	margin:5%;
+	color:#64ccff;
+}
+.box1 .home_temp>img,.box1 .home_wet>img {
+	width:20%;
+}
+.box1 .home_temp>.temp,.box1 .home_wet>.wet {
+	vertical-align:middle;
+	font-size:1.8em;
+}
+.box1 .home_temp>.feeling,.box1 .home_wet>.feeling {
+	vertical-align:middle;
+	font-size:1.8em;
+}
+.box1 .controle_btn {
+	margin-top:5%;
+}
+.box1 .controle_btn>img{
+	width:35%;
+}
+.box1 .sliderDown {
+	margin-top: 10%;
+	width: 12%;
+}
+.box2 .sliderUp {
+	width:12%;
+}
+.box2 .line {
+	width:100%;
+}
+.box2 .here {
+	height:5%;
+	margin-top:10px;
+	text-align:left;
+}
+.box2 .here img{
+	height:100%;
+}
+.box2 .pre_next {
+	margin-top:2%;
+}
+.box2 .pre_next img {
+	width:12%;
+	vertical-align: middle;
+}
+.box2 .pre_next .pages {
+	display:inline-block;
+	margin:0;
+	vertical-align: middle;
+	color:#1DBB1C;
+	font-size: 2em;
+	text-shadow: #333 0px 2px 1px, #333 2px 0px 1px, #333 -2px 0px 1px, #333 0px -2px 1px, #333 -1.4px -1.4px 1px, #333 1.4px 1.4px 1px, #333 1.4px -1.4px 1px, #333 -1.4px 1.4px 1px;
+}
+.box2 .pre_next .pages span {
+	margin:0 10px;
+}
+
+#temp_wet_line {
+	width: 100%;
+	height: 100%;
+}
+.ajaxloading {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width:100%;
+	height:100%;
+	z-index:10;
+	background-color:rgba(0,0,0,.8);
+	display:none;
+}
+.ajaxloading p {
+	width:100%;
+	position:fixed;
+	top:48%;
+	left:0;
+	color: #fff;
+	text-align:center;
+}
+.ajaxloading .loadImg{
+	vertical-align: middle;
+	width: 10%;
+	margin-right: 10px;
+}
+.rotationAnimate {
+	animation: rotation 2s linear infinite;
+	-moz-animation: rotation 2s linear infinite;	/* Firefox */
+	-webkit-animation: rotation 2s linear infinite;	/* Safari 和 Chrome */
+	-o-animation: rotation 2s linear infinite;	/* Opera */
+}
+@keyframes rotation
+{
+0%   {transform:rotate(0deg);}
+100% {transform:rotate(360deg);}
+}
+
+@-moz-keyframes rotation /* Firefox */
+{
+0%   {-moz-transform:rotate(0deg);}
+100% {-moz-transform:rotate(360deg);}
+}
+
+@-webkit-keyframes rotation /* Safari 和 Chrome */
+{
+0%   {-webkit-transform:rotate(0deg);}
+100% {-webkit-transform:rotate(360deg);}
+}
+
+@-o-keyframes rotation /* Opera */
+{
+0%   {-o-transform:rotate(0deg);}
+100% {-o-transform:rotate(360deg);}
+}

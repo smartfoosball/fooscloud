@@ -135,16 +135,16 @@ class WechatEcho(View):
 class Game(View):
 
     def get(self, request):
-        return HttpResponse("game")
+        return render_to_response('games.html', {'something':"1"})
 
 
 class Player(View):
 
     def get(self, request):
-        return HttpResponse("player")
+        return render_to_response('players.html', {'something':"1"})
 
 
 class Me(View):
 
     def get(self, request):
-        return HttpResponse("me")
+        return render_to_response('me.html', {'something':"1"})
