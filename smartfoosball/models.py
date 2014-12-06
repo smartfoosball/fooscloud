@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 
 class Player(models.Model):
     openid = models.CharField(max_length=32)
-    access_token = models.CharField(max_length=32)
+    access_token = models.CharField(max_length=256)
     expires_at = models.IntegerField()
-    refresh_token = models.CharField(max_length=32)
+    refresh_token = models.CharField(max_length=256)
     scope = models.CharField(max_length=256)
     nickname = models.CharField(max_length=128)
     headimgurl = models.URLField()
