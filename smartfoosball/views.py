@@ -21,7 +21,7 @@ import time
 import json
 import uuid
 import urllib
-
+import requests
 
 class Index(TemplateView):
     template_name = 'index.html'
@@ -174,18 +174,18 @@ def wechat_oauth2(request):
             tokens = resp.json()
             openid = tokens['openid']
             params = {'access_token': tokens['access_token'],
-                      'openid': openid],
+                      'openid': openid,
                       'lang': 'zh_CN'}
             resp = requests.get('https://api.weixin.qq.com/sns/userinfo', params=params)
             user = resp.json()
             try:
                 u = User.objects.get(username=openid[:30])
             except User.DoesNotExist:
-                u = User(username=openid[:30], passcode=openid[:8])
+                u = User(username=openid[:30], password=openid[:8])
                 u.save()
             p = Player(openid=openid,
                        access_token=tokens['access_token'],
-                       expires_at=tokens['expires_at'],
+                       expires_at=tokens['expires_in'],
                        refresh_token=tokens['refresh_token'],
                        scope=tokens['scope'],
                        nickname=user['nickname'],
