@@ -210,7 +210,17 @@ class GameStartView(BaseWeixinView):
             game.status = Game.Status.playing.value
             game.save()
         return render_to_response('game_detail.html', ctx)
-        
+
+
+class GameEndView(BaseWeixinView):
+    
+    def get(self, request, gid):
+        game = get_object_or_404(Game, id=gid)
+        ctx = {'game': game}
+        game.status = Game.Status.end
+        game.save()
+        return render_to_response('game_detail.html', ctx)
+
 
 class PlayerView(View):
 
