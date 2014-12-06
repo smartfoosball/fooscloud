@@ -2,6 +2,7 @@ from django import forms
 from django.http import HttpResponse
 from django.views.generic import View,TemplateView
 from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from django.conf import settings
 from models import *
@@ -114,6 +115,7 @@ class WechatEcho(View):
             return HttpResponse(status=403)
         return HttpResponse(echo_str)
 
+    @csrf_exempt
     def post(self, request):
         signature = request.GET.get('signature', '')
         timestamp = request.GET.get('timestamp', '')
