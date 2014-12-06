@@ -173,13 +173,13 @@ def wechat_oauth2(request):
         try:
             resp = requests.get('https://api.weixin.qq.com/sns/oauth2/access_token',
                                 params=params)
-            tokens = resp.json()
+            tokens = json.loads(resp.content)
             openid = tokens['openid']
             params = {'access_token': tokens['access_token'],
                       'openid': openid,
                       'lang': 'zh_CN'}
             resp = requests.get('https://api.weixin.qq.com/sns/userinfo', params=params)
-            user = resp.json()
+            user = json.loads(resp.content)
             try:
                 u = User.objects.get(username=openid[:30])
             except User.DoesNotExist:
