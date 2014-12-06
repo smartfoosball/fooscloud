@@ -55,3 +55,6 @@ target/
 
 #emacs
 *.*~
+
+#local_setting
+local_settings.py

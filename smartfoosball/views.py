@@ -95,3 +95,8 @@ class GameScore(TemplateView):
         score_struct = {'teams':teams}
         return render_to_response('score_board.html', {"score_board":score_struct})
         
+
+
+class WechatEcho(View):
+    def get(self, request):
+        return HttpResponse('echo')

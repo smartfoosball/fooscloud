@@ -22,4 +22,5 @@ urlpatterns = patterns('',
     # simulater
     #'/db/game/(.+)/player/(\d+)/goal/(\d+)', 'PlayerGoal',
 
+    url(r'^wechat_echo', views.WechatEcho.as_view(), name="wechat_echo"),
 )
