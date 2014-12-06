@@ -40,6 +40,12 @@
 </div>
 
 <p>Red-{{ game.red_score }} : Blue-{{ game.blue_score }}</p>
+<script>
+
+setTimeout('location.reload(true)', 5000);
+
+</script>
+
 {% endifequal %}
 
 {% ifequal game.status 3 %}
