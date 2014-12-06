@@ -8,6 +8,8 @@ from models import *
 from helper import *
 from foosball_config import *
 from smartfoosball.settings import *
+from wechatpy.utils import check_signature
+from wechatpy.exceptions import InvalidSignatureException
 
 import time
 import json
@@ -97,28 +99,16 @@ class GameScore(TemplateView):
         return render_to_response('score_board.html', {"score_board":score_struct})
         
 
-# from __future__ import absolute_import, unicode_literals
-from wechatpy.enterprise.crypto import WeChatCrypto
-from wechatpy.exceptions import InvalidSignatureException
-from wechatpy.enterprise.exceptions import InvalidCorpIdException
-from wechatpy.enterprise import parse_message, create_reply
-
-
 class WechatEcho(View):
+
     def get(self, request):
         signature = request.GET.get('msg_signature', '')
         timestamp = request.GET.get('timestamp', '')
         nonce = request.GET.get('nonce', '')
-
-        crypto = WeChatCrypto(TOKEN, EncodingAESKey, CorpId)
         echo_str = request.GET.get('echostr', '')
+
         try:
-            echo_str = crypto.check_signature(
-                signature,
-                timestamp,
-                nonce,
-                echo_str
-            )
+            check_signature(TOKEN, signature, timestamp, nonce)
         except InvalidSignatureException:
             return HttpResponse(status=403)
         return HttpResponse(echo_str)
