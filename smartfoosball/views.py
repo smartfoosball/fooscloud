@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.views.generic import View,TemplateView
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -137,7 +137,7 @@ class WechatEcho(View):
         return HttpResponse(reply.render())
 
 
-class GameView(View):
+class BaseWeixinView(View):
 
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_authenticated():
@@ -145,8 +145,10 @@ class GameView(View):
                     'redirect_uri':
                         'http://' + self.request.get_host() + reverse("wechat_oauth2")})
             return redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (WX_APPID, redirect_uri))
-        return super(GameView, self).dispatch(*args, **kwargs)
+        return super(BaseWeixinView, self).dispatch(*args, **kwargs)
 
+
+class GameView(BaseWeixinView):
 
     def get(self, request):
         '''
@@ -163,8 +165,28 @@ class GameView(View):
         if (not playing) and (not waiting):
             waiting = Game()
             waiting.save()
-        ctx = {'playing': playing, 'watiing': waiting}
+        ctx = {'playing': playing, 'waiting': waiting}
         return render_to_response('games.html', ctx)
+
+
+class GameJoinView(BaseWeixinView):
+
+    def get(self, request, gid):
+        assert (request.user.player is not None)
+        game = get_object_or_404(Game, id=gid)
+        pos = request.GET.get('pos')
+        try:
+            for i in ['red_van', 'red_rear', 'blue_van', 'blue_rear']:
+                if getattr(game, i) == request.user.player:
+                    setattr(game, i, None)
+                    break
+            player = getattr(game, pos)
+            if not player:
+                setattr(game, pos, request.user.player)
+                game.save()
+        except AttributeError:
+            pass
+        return redirect(reverse('games'))
 
 
 class PlayerView(View):
@@ -173,15 +195,7 @@ class PlayerView(View):
         return render_to_response('players.html', {'something':"1"})
 
 
-class MeView(View):
-
-    def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_authenticated():
-            redirect_uri = urllib.urlencode({
-                    'redirect_uri':
-                        'http://' + self.request.get_host() + reverse("wechat_oauth2")})
-            return redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (WX_APPID, redirect_uri))
-        return super(MeView, self).dispatch(*args, **kwargs)
+class MeView(BaseWeixinView):
 
     def get(self, request):
         return HttpResponse("me")

@@ -19,6 +19,8 @@
 </div>
 {% endif %}
 
+{{ wating }}
+
 <div>
 	{% if waiting.red_van %}
 	<p>
@@ -26,7 +28,7 @@
 	</p>
 	{% else %}
 	<p>
-		<a href="/games/join?pos=red_van">Join</a>
+		<a href="/games/{{ waiting.id }}/join?pos=red_van">Join</a>
 	</p>
 	{% endif %}
 
@@ -36,7 +38,7 @@
 	</p>
 	{% else %}
 	<p>
-		<a href="/games/join?pos=red_rear">Join</a>
+		<a href="/games/{{ waiting.id }}/join?pos=red_rear">Join</a>
 	</p>
 	{% endif %}
 
@@ -46,17 +48,17 @@
 	</p>
 	{% else %}
 	<p>
-		<a href="/games/join?pos=blue_van">Join</a>
+		<a href="/games/{{ waiting.id }}/join?pos=blue_van">Join</a>
 	</p>
 	{% endif %}
 
 	{% if waiting.blue_rear %}
 	<p>
-		{{ waiting.blure_rear.nickname }}
+		{{ waiting.blue_rear.nickname }}
 	</p>
 	{% else %}
 	<p>
-		<a href="/games/join?pos=blue_rear">Join</a>
+		<a href="/games/{{ waiting.id }}/join?pos=blue_rear">Join</a>
 	</p>
 	{% endif %}
 
