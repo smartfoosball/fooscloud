@@ -185,9 +185,32 @@ class GameJoinView(BaseWeixinView):
                 setattr(game, pos, request.user.player)
                 game.save()
         except AttributeError:
-            pass
+            game.save()
         return redirect(reverse('games'))
 
+
+class GameDetailView(BaseWeixinView):
+
+    def get(self, request, gid):
+        game = get_object_or_404(Game, id=gid)
+        ctx = {'game': game}
+        return render_to_response('game_detail.html', ctx)
+
+
+class GameStartView(BaseWeixinView):
+
+    def get(self, request, gid):
+        game = get_object_or_404(Game, id=gid)
+        ctx = {'game': game}
+        for i in ['red_van', 'red_rear', 'blue_van', 'blue_rear']:
+            if not getattr(game, i):
+                return render_to_response('game_detail.html', ctx)
+        playing = Game.objects.filter(status=Game.Status.playing.value).first()
+        if not playing:
+            game.status = Game.Status.playing.value
+            game.save()
+        return render_to_response('game_detail.html', ctx)
+        
 
 class PlayerView(View):
 

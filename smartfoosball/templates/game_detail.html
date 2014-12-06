@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{%block body%}
+
+{% ifequal game.status 1 %}
+<!-- waiting -->
+<div>
+	<p>
+		{{ game.red_van.nickname }}
+	</p>
+	<p>
+		{{ game.red_rear.nickname }}
+	</p>
+	<p>
+		{{ game.blue_van.nickname }}
+	</p>
+	<p>
+		{{ game.blure_rear.nickname }}
+	</p>
+</div>
+
+<a href="/games/{{ game.id }}/start">Start</a>
+{% endifequal %}
+
+{% ifequal game.status 2 %}
+<!-- playing -->
+<div>
+	<p>
+		{{ game.red_van.nickname }}
+	</p>
+	<p>
+		{{ game.red_rear.nickname }}
+	</p>
+	<p>
+		{{ game.blue_van.nickname }}
+	</p>
+	<p>
+		{{ game.blure_rear.nickname }}
+	</p>
+</div>
+
+<p>Red-{{ game.red_score }} : Blue-{{ game.blue_score }}</p>
+{% endifequal %}
+
+{% ifequal game.status 3 %}
+<!-- end -->
+<div>
+	<p>
+		{{ game.red_van.nickname }}
+	</p>
+	<p>
+		{{ game.red_rear.nickname }}
+	</p>
+	<p>
+		{{ game.blue_van.nickname }}
+	</p>
+	<p>
+		{{ game.blure_rear.nickname }}
+	</p>
+</div>
+
+<p>Red-{{ game.red_score }} : Blue-{{ game.blue_score }}</p>
+{% endifequal %}
+
+{% endblock %}
