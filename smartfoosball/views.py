@@ -139,6 +139,15 @@ class WechatEcho(View):
 
 class GameView(View):
 
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            redirect_uri = urllib.urlencode({
+                    'redirect_uri':
+                        'http://' + self.request.get_host() + reverse("wechat_oauth2")})
+            return redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (WX_APPID, redirect_uri))
+        return super(GameView, self).dispatch(*args, **kwargs)
+
+
     def get(self, request):
         '''
         {
@@ -149,21 +158,13 @@ class GameView(View):
             "games":[{game_id:str, teams:{...}}]
         }
         '''
-        waiting_games = Games.objects.filter(game_status=GameStatusEn.waiting.value)[:5]
-        games = []
-        for g in waiting_games:
-            teams = {TeamEn.red.name: None, TeamEn.blue.name: None}
-            pos = Positions.objects.filter(game_sn=g).all()
-            # red
-            teams[TeamEn.red.name] = {PositionEn.attack.name:get_player(pos, TeamEn.red.value, PositionEn.attack.value)}
-            teams[TeamEn.red.name].update({PositionEn.defence.name:get_player(pos, TeamEn.red.value, PositionEn.defence.value)})
-            # blue
-            teams[TeamEn.blue.name] = {PositionEn.attack.name:get_player(pos, TeamEn.blue.value, PositionEn.attack.value)}
-            teams[TeamEn.blue.name].update({PositionEn.defence.name:get_player(pos, TeamEn.blue.value, PositionEn.defence.value)})
-            score_struct = {'game_id': g.game_id, 'teams': teams}
-            games.append(score_struct)
-
-        return render_to_response('games.html', {'games':games})
+        playing = Game.objects.filter(status=Game.Status.playing.value).first()
+        waiting = Game.objects.filter(status=Game.Status.waiting.value).first()
+        if (not playing) and (not waiting):
+            waiting = Game()
+            waiting.save()
+        ctx = {'playing': playing, 'watiing': waiting}
+        return render_to_response('games.html', ctx)
 
 
 class PlayerView(View):
