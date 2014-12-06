@@ -136,19 +136,19 @@ class WechatEcho(View):
         return HttpResponse(reply.render())
 
 
-class Game(View):
+class GameView(View):
 
     def get(self, request):
         return render_to_response('games.html', {'something':"1"})
 
 
-class Player(View):
+class PlayerView(View):
 
     def get(self, request):
         return render_to_response('players.html', {'something':"1"})
 
 
-class Me(View):
+class MeView(View):
 
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_authenticated():
