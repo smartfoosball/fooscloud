@@ -227,7 +227,7 @@ class GameHistoryView(BaseWeixinView):
     def get(self, request):
         return render_to_response(
             'game_history.html', 
-            {'games': Game.objects.filter(status=Game.Status.end.value).order_by('-updated_at').limit(10)})
+            {'games': Game.objects.filter(status=Game.Status.end.value).order_by('-updated_at')[:10]})
 
 
 class PlayerView(View):
