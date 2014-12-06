@@ -37,36 +37,12 @@ class Command(BaseCommand):
                     time.sleep(3)
                     continue
 
-                team, pos = None, None
                 for i in data:
-                    if i['attr'] == 3:
-                        team = i['val']
-                    elif i['attr'] == 4:
-                        pos = i['val']
-                    elif i['attr'] == 0:
-                        if i['val'] == 'cancel_red_goal':
-                            # todo: remove goal record
-                            game.red_score -= 1
-                        elif i['val'] == 'cancel_blue_goal':
-                            # todo: remove goal record
-                            game.blue_score -= 1
-                        game.save()
-                try:
-                    print "goal %s %s" % (team, pos)
-                    g = Goal(game=game, 
-                             player=getattr(game, pos),
-                             position=d_position[pos],
-                             team=d_team[team])
-                    g.save()
-                    if team == 'red':
-                        game.red_score += 1
-                    elif team == 'blue':
-                        game.blue_score += 1
-                    if (game.red_score == 10) or (game.blue_score == 10):
-                        game.status = Game.Status.end
-                    game.save()
-                except Exception, e:
-                    print str(e)
+                    if i['attr'] == 6:
+                        game.blue_score = i['val']
+                    elif i['attr'] == 7:
+                        game.red_score = i['val']
+                game.save()
                 db.reset_queries()
                 time.sleep(3)
             except Exception, e:
