@@ -11,6 +11,8 @@ from smartfoosball.settings import *
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.messages import TextMessage
+from wechatpy.replies import TextReply
+from wechatpy import parse_message
 
 import time
 import json
@@ -124,6 +126,7 @@ class WechatEcho(View):
             check_signature(TOKEN, signature, timestamp, nonce)
         except InvalidSignatureException:
             return HttpResponse(status=403)
-        
-        msg = TextMessage("I got it!")
-        return HttpResponse(msg)
+
+        msg = parse_message(request.DATA)
+        reply = TextReply(content='I got it!', message=msg)
+        return HttpResponse(reply.render())
