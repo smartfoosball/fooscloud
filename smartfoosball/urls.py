@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib import admin
 admin.autodiscover()
@@ -22,5 +23,5 @@ urlpatterns = patterns('',
     # simulater
     #'/db/game/(.+)/player/(\d+)/goal/(\d+)', 'PlayerGoal',
 
-    url(r'^wechat_echo', views.WechatEcho.as_view(), name="wechat_echo"),
+    url(r'^wechat_echo', csrf_exempt(views.WechatEcho.as_view()), name="wechat_echo"),
 )
