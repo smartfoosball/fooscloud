@@ -135,7 +135,30 @@ class WechatEcho(View):
 class Game(View):
 
     def get(self, request):
-        return render_to_response('games.html', {'something':"1"})
+        '''
+        {
+        'game_id':str,
+        'teams':{1:{1:player_object, 2:player_object}, 2:{1:player_obj,2:player_obj}},
+        }
+        {
+            "games":[{game_id:str, teams:{...}}]
+        }
+        '''
+        waiting_games = Games.objects.filter(game_status=GameStatusEn.waiting.value)[:5]
+        games = []
+        for g in waiting_games:
+            teams = {TeamEn.red.name: None, TeamEn.blue.name: None}
+            pos = Positions.objects.filter(game_sn=g).all()
+            # red
+            teams[TeamEn.red.name] = {PositionEn.attack.name:get_player(pos, TeamEn.red.value, PositionEn.attack.value)}
+            teams[TeamEn.red.name].update({PositionEn.defence.name:get_player(pos, TeamEn.red.value, PositionEn.defence.value)})
+            # blue
+            teams[TeamEn.blue.name] = {PositionEn.attack.name:get_player(pos, TeamEn.blue.value, PositionEn.attack.value)}
+            teams[TeamEn.blue.name].update({PositionEn.defence.name:get_player(pos, TeamEn.blue.value, PositionEn.defence.value)})
+            score_struct = {'game_id': g.game_id, 'teams': teams}
+            games.append(score_struct)
+
+        return render_to_response('games.html', {'games':games})
 
 
 class Player(View):

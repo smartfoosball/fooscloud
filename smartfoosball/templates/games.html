@@ -1,4 +1,29 @@
 {% extends "base.html" %}
 {%block body%}
-games
+
+{%for waiting in games%}
+-----game_{{waiting.game_id}}, start
+<div style="color:blue;">
+    Team blue</br>
+    player1 {{waiting.teams.blue.attack.nick_name}} attack </br>
+    player2 {{waiting.teams.blue.defence.nick_name}} defence
+    </div>
+</br>
+<a href="game/{{waiting.game_id}}/score_board">detail</a>
+</br>
+</br>
+    <div style="color:red;">
+    Team Red</br>
+    player1 {{waiting.teams.red.attack.nick_name}} attack </br>
+    player2 {{waiting.teams.red.defence.nick_name}} defence
+    </div>
+-----game_{{waiting.game_id}}, end
+</br>
+</br>
+{%endfor%}
+
+</br>
+</br>
+</br>
+<a href="/previous_score" >previous</a>
 {%endblock%}
