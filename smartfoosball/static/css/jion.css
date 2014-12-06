@@ -1,0 +1,95 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{ padding:0; margin:0; }
+.font {
+	font-family:"微软雅黑";
+	text-align:center;
+	font-weight:bolder;
+	text-shadow: #555 0px 2px 1px, #555 2px 0px 1px, #555 -2px 0px 1px, #555 0px -2px 1px, #555 -1.4px -1.4px 1px, #555 1.4px 1.4px 1px, #555 1.4px -1.4px 1px, #555 -1.4px 1.4px 1px;
+}
+.box{
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-color:#fff2e5;
+	text-align:center;
+}
+
+.box1 {
+	background-color:#fff;
+	top:0;
+	left:0;
+}
+.box1 .shark {
+	text-align: right;
+	margin: 5px 10px;
+	font-size: 0.8em;
+	font-weight:bold;
+}
+.box1 .join_introduction {
+	width: 74%;
+	margin: 20% auto;
+	text-align: left;
+	font-size: 1.5em;
+	font-weight:bold;
+	word-break: break-all;
+}
+.box1 .joinBtn {
+	width:80%;
+	margin-top:10%;
+}
+.ajaxloading {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width:100%;
+	height:100%;
+	z-index:10;
+	background-color:rgba(0,0,0,.8);
+	display:none;
+}
+.ajaxloading p {
+	width:100%;
+	position:fixed;
+	top:48%;
+	left:0;
+	color: #fff;
+	text-align:center;
+}
+.ajaxloading .loadImg{
+	vertical-align: middle;
+	width: 10%;
+	margin-right: 10px;
+}
+.rotationAnimate {
+	animation: rotation 2s linear infinite;
+	-moz-animation: rotation 2s linear infinite;	/* Firefox */
+	-webkit-animation: rotation 2s linear infinite;	/* Safari 和 Chrome */
+	-o-animation: rotation 2s linear infinite;	/* Opera */
+}
+@keyframes rotation
+{
+0%   {transform:rotate(0deg);}
+100% {transform:rotate(360deg);}
+}
+
+@-moz-keyframes rotation /* Firefox */
+{
+0%   {-moz-transform:rotate(0deg);}
+100% {-moz-transform:rotate(360deg);}
+}
+
+@-webkit-keyframes rotation /* Safari 和 Chrome */
+{
+0%   {-webkit-transform:rotate(0deg);}
+100% {-webkit-transform:rotate(360deg);}
+}
+
+@-o-keyframes rotation /* Opera */
+{
+0%   {-o-transform:rotate(0deg);}
+100% {-o-transform:rotate(360deg);}
+}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Player(models.Model):
@@ -9,6 +10,7 @@ class Player(models.Model):
     scope = models.CharField(max_length=256)
     nickname = models.CharField(max_length=128)
     headimgurl = models.URLField()
+    user = models.OneToOneField(User)
 
 # class Games(models.Model):
 # #    sn = models.IntegerField(primary_key=True)

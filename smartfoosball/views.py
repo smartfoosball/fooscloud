@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import View,TemplateView
 from django.shortcuts import render_to_response, redirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from datetime import datetime
 from django.conf import settings
 from models import *
@@ -138,13 +139,13 @@ class WechatEcho(View):
 class Game(View):
 
     def get(self, request):
-        return HttpResponse("game")
+        return render_to_response('games.html', {'something':"1"})
 
 
 class Player(View):
 
     def get(self, request):
-        return HttpResponse("player")
+        return render_to_response('players.html', {'something':"1"})
 
 
 class Me(View):
@@ -171,18 +172,25 @@ def wechat_oauth2(request):
             resp = requests.get('https://api.weixin.qq.com/sns/oauth2/access_token',
                                 params=params)
             tokens = resp.json()
+            openid = tokens['openid']
             params = {'access_token': tokens['access_token'],
-                      'openid': tokens['openid'],
+                      'openid': openid],
                       'lang': 'zh_CN'}
             resp = requests.get('https://api.weixin.qq.com/sns/userinfo', params=params)
             user = resp.json()
-            p = Player(openid=tokens['openid'],
+            try:
+                u = User.objects.get(username=openid[:30])
+            except User.DoesNotExist:
+                u = User(username=openid[:30], passcode=openid[:8])
+                u.save()
+            p = Player(openid=openid,
                        access_token=tokens['access_token'],
                        expires_at=tokens['expires_at'],
                        refresh_token=tokens['refresh_token'],
                        scope=tokens['scope'],
                        nickname=user['nickname'],
-                       headimgurl=user['headimgurl'])
+                       headimgurl=user['headimgurl'],
+                       user=u)
             p.save()
         except Exception, e:
             return HttpResponse("authorize failed")
