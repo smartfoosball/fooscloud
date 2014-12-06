@@ -184,8 +184,8 @@ def wechat_oauth2(request):
             except User.DoesNotExist:
                 u = User(username=openid[:30], password=openid[:8])
                 u.save()
-            user = authenticate(username=openid[:30], password=openid[:8])
-            login(self.request, user)
+            au = authenticate(username=openid[:30], password=openid[:8])
+            login(self.request, au)
             try:
                 p = Player.objects.get(openid=openid)
                 p.access_token = tokens['access_token']
