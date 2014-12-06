@@ -55,3 +55,7 @@ LOGGING = {
         },
     }
 }
+
+TOKEN = ''
+EncodingAESKey = ''
+CorpId = ''

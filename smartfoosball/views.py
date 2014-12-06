@@ -7,6 +7,7 @@ from django.conf import settings
 from models import *
 from helper import *
 from foosball_config import *
+from smartfoosball.settings import *
 
 import time
 import json
@@ -101,11 +102,6 @@ from wechatpy.enterprise.crypto import WeChatCrypto
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.enterprise.exceptions import InvalidCorpIdException
 from wechatpy.enterprise import parse_message, create_reply
-
-
-TOKEN = 'dd2992bf90eb4139ae2dd6bb1eec02da'
-EncodingAESKey = ''
-CorpId = 'gh_9b4f5b65e7f9'
 
 
 class WechatEcho(View):
