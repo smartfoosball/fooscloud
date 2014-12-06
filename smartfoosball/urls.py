@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     #'/db/game/(.+)/player/(\d+)/goal/(\d+)', 'PlayerGoal',
 
     url(r'^wechat_echo$', csrf_exempt(views.WechatEcho.as_view()), name="wechat_echo"),
-    ulr(r'^games$', views.Game.as_view(), name="games"),
-    ulr(r'^players$', views.Player.as_view(), name="players"),
-    ulr(r'^me$', views.Me.as_view(), name="me"),
+    url(r'^games$', views.Game.as_view(), name="games"),
+    url(r'^players$', views.Player.as_view(), name="players"),
+    url(r'^me$', views.Me.as_view(), name="me"),
 )
