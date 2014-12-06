@@ -96,7 +96,34 @@ class GameScore(TemplateView):
         return render_to_response('score_board.html', {"score_board":score_struct})
         
 
+from __future__ import absolute_import, unicode_literals
+from wechatpy.enterprise.crypto import WeChatCrypto
+from wechatpy.exceptions import InvalidSignatureException
+from wechatpy.enterprise.exceptions import InvalidCorpIdException
+from wechatpy.enterprise import parse_message, create_reply
+
+
+TOKEN = 'dd2992bf90eb4139ae2dd6bb1eec02da'
+EncodingAESKey = ''
+CorpId = 'gh_9b4f5b65e7f9'
+
 
 class WechatEcho(View):
     def get(self, request):
-        return HttpResponse('echo')
+
+    signature = request.args.get('msg_signature', '')
+    timestamp = request.args.get('timestamp', '')
+    nonce = request.args.get('nonce', '')
+
+    crypto = WeChatCrypto(TOKEN, EncodingAESKey, CorpId)
+    echo_str = request.args.get('echostr', '')
+    try:
+        echo_str = crypto.check_signature(
+            signature,
+            timestamp,
+            nonce,
+            echo_str
+        )
+    except InvalidSignatureException:
+        abort(403)
+    return echo_str
