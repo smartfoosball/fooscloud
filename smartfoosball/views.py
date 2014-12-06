@@ -127,6 +127,6 @@ class WechatEcho(View):
         except InvalidSignatureException:
             return HttpResponse(status=403)
 
-        msg = parse_message(request.DATA)
+        msg = parse_message(request.body)
         reply = TextReply(content='I got it!', message=msg)
         return HttpResponse(reply.render())
