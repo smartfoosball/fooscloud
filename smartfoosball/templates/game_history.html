@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{%block body%}
+
+{% for g in games %}
+<div>
+	<p>Red: {{ g.red_van.nickname }} &and; {{ g.red_rear.nickname }}</p>
+	<p>{{ g.red_score }} : {{ g.blue_score }}</p>
+	<p>Blue: {{ g.blue_van.nickanme }} &and; {{ g.blue_rear.nickname }}</p>
+</div>
+{% endfor %}
+
+{% endblock %}

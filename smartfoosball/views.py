@@ -222,6 +222,14 @@ class GameEndView(BaseWeixinView):
         return render_to_response('game_detail.html', ctx)
 
 
+class GameHistoryView(BaseWeixinView):
+    
+    def get(self, request):
+        return render_to_response(
+            'game_history.html', 
+            {'games': Game.objects.filter(status=Game.Status.end.value).order_by('-updated_at')})
+
+
 class PlayerView(View):
 
     def get(self, request):
