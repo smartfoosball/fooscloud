@@ -130,3 +130,21 @@ class WechatEcho(View):
         msg = parse_message(request.body)
         reply = TextReply(content='I got it!', message=msg)
         return HttpResponse(reply.render())
+
+
+class Game(View):
+
+    def get(self, request):
+        return HttpResponse("game")
+
+
+class Player(View):
+
+    def get(self, request):
+        return HttpResponse("player")
+
+
+class Me(View):
+
+    def get(self, request):
+        return HttpResponse("me")
