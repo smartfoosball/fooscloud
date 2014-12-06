@@ -183,15 +183,20 @@ def wechat_oauth2(request):
             except User.DoesNotExist:
                 u = User(username=openid[:30], password=openid[:8])
                 u.save()
-            p = Player(openid=openid,
-                       access_token=tokens['access_token'],
-                       expires_at=tokens['expires_in'],
-                       refresh_token=tokens['refresh_token'],
-                       scope=tokens['scope'],
-                       nickname=user['nickname'],
-                       headimgurl=user['headimgurl'],
-                       user=u)
-            p.save()
+            user = authenticate(username=openid[:30], password=openid[:8])
+            login(self.request, user)
+            try:
+                p = Player.objects.get(openid=openid)
+            except Player.DoesNotExist:
+                p = Player(openid=openid,
+                           access_token=tokens['access_token'],
+                           expires_at=tokens['expires_in'],
+                           refresh_token=tokens['refresh_token'],
+                           scope=tokens['scope'],
+                           nickname=user['nickname'],
+                           headimgurl=user['headimgurl'],
+                           user=u)
+                p.save()
         except Exception, e:
             return HttpResponse("authorize failed")
     return HttpResponse("wechat_oauth2")
