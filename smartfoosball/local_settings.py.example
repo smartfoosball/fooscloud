@@ -57,5 +57,5 @@ LOGGING = {
 }
 
 TOKEN = ''
-EncodingAESKey = ''
-CorpId = ''
+WX_APPID = ''
+WX_SECRET = ''
