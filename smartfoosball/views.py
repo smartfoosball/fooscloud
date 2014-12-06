@@ -157,6 +157,7 @@ class MeView(View):
                     'redirect_uri':
                         'http://' + self.request.get_host() + reverse("wechat_oauth2")})
             return redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (WX_APPID, redirect_uri))
+        return super(MeView, self).dispatch(*args, **kwargs)
 
     def get(self, request):
         return HttpResponse("me")
@@ -182,10 +183,11 @@ def wechat_oauth2(request):
             try:
                 u = User.objects.get(username=openid[:30])
             except User.DoesNotExist:
-                u = User(username=openid[:30], password=openid[:8])
+                u = User(username=openid[:30])
+                u.set_password(openid[:8])
                 u.save()
             au = authenticate(username=openid[:30], password=openid[:8])
-            login(self.request, au)
+            login(request, au)
             try:
                 p = Player.objects.get(openid=openid)
                 p.access_token = tokens['access_token']
@@ -206,4 +208,4 @@ def wechat_oauth2(request):
                 p.save()
         except Exception, e:
             return HttpResponse("authorize failed")
-    return HttpResponse("wechat_oauth2")
+    return redirect(reverse("me"))
