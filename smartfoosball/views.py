@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.views.generic import View,TemplateView
 from django.shortcuts import render_to_response, redirect
@@ -187,6 +188,12 @@ def wechat_oauth2(request):
             login(self.request, user)
             try:
                 p = Player.objects.get(openid=openid)
+                p.access_token = tokens['access_token']
+                p.expires_at = tokens['expires_in']
+                p.scope = tokens['scope']
+                p.nickname = user['nickname']
+                p.headimgurl = user['headimgurl']
+                p.save()
             except Player.DoesNotExist:
                 p = Player(openid=openid,
                            access_token=tokens['access_token'],
