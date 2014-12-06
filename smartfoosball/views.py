@@ -10,6 +10,7 @@ from foosball_config import *
 from smartfoosball.settings import *
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
+from wechatpy.messages import TextMessage
 
 import time
 import json
@@ -112,3 +113,17 @@ class WechatEcho(View):
         except InvalidSignatureException:
             return HttpResponse(status=403)
         return HttpResponse(echo_str)
+
+    def post(self, request):
+        signature = request.GET.get('signature', '')
+        timestamp = request.GET.get('timestamp', '')
+        nonce = request.GET.get('nonce', '')
+        echo_str = request.GET.get('echostr', '')
+
+        try:
+            check_signature(TOKEN, signature, timestamp, nonce)
+        except InvalidSignatureException:
+            return HttpResponse(status=403)
+        
+        msg = TextMessage("I got it!")
+        return HttpResponse(msg)
