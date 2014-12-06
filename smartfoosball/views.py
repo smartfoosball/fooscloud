@@ -102,7 +102,7 @@ class GameScore(TemplateView):
 class WechatEcho(View):
 
     def get(self, request):
-        signature = request.GET.get('msg_signature', '')
+        signature = request.GET.get('signature', '')
         timestamp = request.GET.get('timestamp', '')
         nonce = request.GET.get('nonce', '')
         echo_str = request.GET.get('echostr', '')
