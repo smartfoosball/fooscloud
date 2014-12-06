@@ -1,11 +1,4 @@
 """
-
-requirement:
-enum34
-
-
-Django settings for smartfoosball project.
-
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
 

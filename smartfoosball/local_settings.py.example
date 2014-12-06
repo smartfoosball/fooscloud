@@ -1,7 +1,16 @@
-M2M_HOST = '127.0.0.1'
-M2M_PORT = 5672
-VHOST = '/'
-M2M_USER = 'guest'
-M2M_PWD = 'guest'
+DEBUG = True
 
-ALLOWED_PRODUCT_KEYS = []
+TEMPLATE_DEBUG = True
+
+ALLOWED_HOSTS = ['*']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'foosball',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
