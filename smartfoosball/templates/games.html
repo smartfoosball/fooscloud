@@ -5,69 +5,62 @@
 {%block body%}
 
 {% if playing %}
-<div>
-	<p>
+<div class="container-fluid">
+  <div class="col-md-3 col-xs-3 ">
 		{{ playing.red_van.nickname }}
-	</p>
-	<p>
+  </div>
+  <div class="col-md-3 col-xs-3 ">
 		{{ playing.red_rear.nickname }}
-	</p>
-	<p>
+  </div>
+  <div class="col-md-3 col-xs-3 ">
 		{{ playing.blue_van.nickname }}
-	</p>
-	<p>
+  </div>
+  <div class="col-md-3 col-xs-3 ">
 		{{ playing.blue_rear.nickname }}
-	</p>
-	<a href="/games/{{ playing.id }}/">Detail</a>
+  </div>
+		<a href="/games/{{ playing.id }}/">Detail</a>
 </div>
 {% endif %}
 
 {{ wating }}
-
-<div>
-	{% if waiting.red_van %}
-	<p>
-		{{ waiting.red_van.nickname }}
-	</p>
+====
+<div class="container-fluid">
+  <div class="row games_bg">
+	<div class="col-md-3 col-xs-3">
+        {% if waiting.red_van %}
+         <img src="/static/images/player_img.jpg"/>
 	{% else %}
-	<p>
-		<a href="/games/{{ waiting.id }}/join?pos=red_van">Join</a>
-	</p>
+	 <a href="/games/{{ waiting.id }}/join?pos=red_van"><img src="/static/images/red_join.jpg"/></a>
+         
 	{% endif %}
-
+	</div>
+	<div class="col-md-3 col-xs-3">
 	{% if waiting.red_rear %}
-	<p>
 		{{ waiting.red_rear.nickname }}
-	</p>
 	{% else %}
-	<p>
-		<a href="/games/{{ waiting.id }}/join?pos=red_rear">Join</a>
-	</p>
+		<a href="/games/{{ waiting.id }}/join?pos=red_rear"><img src="/static/images/red_join.jpg"/></a>
 	{% endif %}
-
+	</div>
+	<div class="col-md-3 col-xs-3">
 	{% if waiting.blue_van %}
-	<p>
 		{{ waiting.blue_van.nickname }}
-	</p>
 	{% else %}
-	<p>
 		<a href="/games/{{ waiting.id }}/join?pos=blue_van">Join</a>
-	</p>
 	{% endif %}
-
+	</div>
+	<div class="col-md-3 col-xs-3">
 	{% if waiting.blue_rear %}
-	<p>
 		{{ waiting.blue_rear.nickname }}
-	</p>
 	{% else %}
-	<p>
 		<a href="/games/{{ waiting.id }}/join?pos=blue_rear">Join</a>
-	</p>
 	{% endif %}
-
+	</div>
+	<div class="col-md-12">
 	<a href="/games/{{ waiting.id }}/">Detail</a>
+	</div>
+  </div>
 </div>
-
+===
 <div>
 	<a href="/games/history/" >history</a>
 </div>
