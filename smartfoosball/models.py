@@ -1,5 +1,6 @@
 from enum import Enum
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 
 
@@ -25,6 +26,43 @@ class Player(models.Model):
     headimgurl = models.URLField()
     user = models.OneToOneField(User)
 
+    def __unicode__(self):
+        return self.nickname
+
+    def partners(self):
+        query = (Q(red_van=self) | Q(red_rear=self) | Q(blue_van=self) | Q(blue_rear=self)) & Q(status=Game.Status.end.value)
+        games = Game.objects.filter(query)
+        ret = set()
+        for i in games:
+            if i.red_van == self:
+                ret.add(i.red_rear)
+            elif i.red_rear == self:
+                ret.add(i.red_van)
+            elif i.blue_van == self:
+                ret.add(i.blue_rear)
+            elif i.blue_rear == self:
+                ret.add(i.blue_van)
+        if None in ret:
+            ret.remove(None)
+        return ret
+
+    def performance(self):
+        query = (Q(red_van=self) | Q(red_rear=self) | Q(blue_van=self) | Q(blue_rear=self)) & Q(status=Game.Status.end.value)
+        games = Game.objects.filter(query)
+        win, lost = 0, 0
+        for i in games:
+            if (i.red_van == self) or (i.red_rear == self):
+                if i.red_score > i.blue_score:
+                    win += 1
+                else:
+                    lost += 1
+            else:
+                if i.red_score > i.blue_score:
+                    lost += 1
+                else:
+                    win += 1
+        return win, lost
+
 
 class Game(models.Model):
     
@@ -44,6 +82,9 @@ class Game(models.Model):
     blue_score = models.IntegerField(default=0)
     status = models.IntegerField(choices=Status.choices(), default=Status.waiting.value)
 
+    def __unicode__(self):
+        return u"%s-%s vs %s-%s" % (self.red_van, self.red_rear, 
+                                   self.blue_van, self.blue_rear)
 
 class Goal(models.Model):
 
@@ -64,39 +105,4 @@ class Goal(models.Model):
     player = models.ForeignKey(Player)
     position = models.IntegerField(choices=Position.choices())
     team = models.IntegerField(choices=Team.choices())
-    
 
-# class Games(models.Model):
-# #    sn = models.IntegerField(primary_key=True)
-#     sn = models.AutoField(primary_key=True)
-#     game_id = models.CharField(max_length=100)
-#     game_status = models.IntegerField(blank=True, null=True)
-#     creater_sn = models.ForeignKey('Players', db_column='creater_sn', blank=True, null=True)
-#     created_at = models.DateTimeField()
-
-#     class Meta:
-#         managed = False
-#         db_table = 'games'
-
-
-# class Players(models.Model):
-#     sn = models.AutoField(primary_key=True)
-#     wechat_id = models.CharField(max_length=100, blank=True)
-#     auth_sn = models.CharField(max_length=100, blank=True)
-#     nick_name = models.CharField(max_length=50, blank=True)
-
-#     class Meta:
-#         managed = False
-#         db_table = 'players'
-
-
-# class Positions(models.Model):
-#     sn = models.AutoField(primary_key=True)
-#     game_sn = models.ForeignKey(Games, db_column='game_sn', blank=True, null=True)
-#     team_id = models.IntegerField(blank=True, null=True)
-#     pos_id = models.IntegerField(blank=True, null=True)
-#     player_sn = models.ForeignKey(Players, db_column='player_sn', blank=True, null=True)
-
-#     class Meta:
-#         managed = False
-#         db_table = 'positions'
