@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/game.css">
+{% endblock %}
+
 {%block body%}
 <div class="container-fluid" style="margin-top:20px;">
 
@@ -25,36 +30,11 @@
 	<div class="panel games_bg">
 		<table class="table">
 			<tr>
-				<td class="text-center">
-					{% if waiting.red_rear %}
-					<img class="img-circle img_size red_img_border" src="{{ waiting.red_rear.headimgurl }}" />
-					{% else %}
-					<a href="/games/{{ waiting.id }}/join?pos=red_rear"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a>
-					{% endif %}
-				</td>
-				<td class="text-center"> 
-					{% if waiting.red_van %} 
-					<img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" /> 
-					{% else %} 
-					<a href="/games/{{ waiting.id }}/join?pos=red_van"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a> 
-					{% endif %} 
-				</td>
+				<td class="text-center"> {% if waiting.red_rear %} <img class="img-circle img_size red_img_border" src="{{ waiting.red_rear.headimgurl }}" /> {% else %} <a href="/games/{{ waiting.id }}/join?pos=red_rear"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a> {% endif %} </td>
+				<td class="text-center"> {% if waiting.red_van %} <img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" /> {% else %} <a href="/games/{{ waiting.id }}/join?pos=red_van"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a> {% endif %} </td>
 
-				<td class="text-center">
-					{% if waiting.blue_van %}
-					<img class="img-circle img_size blue_img_border" src="{{ waiting.blue_van.headimgurl }}" />
-					{% else %}
-					<a href="/games/{{ waiting.id }}/join?pos=blue_van"><img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" /></a>
-					{% endif %}
-
-				</td>
-				<td class="text-center">
-					{% if waiting.blue_rear %}
-					<img class="img-circle img_size blue_img_border" src="{{ waiting.blue_rear.headimgurl }}" />
-					{% else %}
-					<a href="/games/{{ waiting.id }}/join?pos=blue_rear"><img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" /></a>
-					{% endif %}
-				</td>
+				<td class="text-center"> {% if waiting.blue_van %} <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_van.headimgurl }}" /> {% else %} <a href="/games/{{ waiting.id }}/join?pos=blue_van"><img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" /></a> {% endif %} </td>
+				<td class="text-center"> {% if waiting.blue_rear %} <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_rear.headimgurl }}" /> {% else %} <a href="/games/{{ waiting.id }}/join?pos=blue_rear"><img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" /></a> {% endif %} </td>
 			</tr>
 			<tr>
 				<td></td>
@@ -66,10 +46,8 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xs-1"></div>
-		<div class="col-xs-2">
+		<div class="text-center">
 			<a href="/games/history/" ><img class="" style="margin-top:50px;wdith:200px;height:50px;" src="/static/images/history.png"/></a>
 		</div>
-		<div class="col-xs-1"></div>
 	</div>
 	{%endblock%}
