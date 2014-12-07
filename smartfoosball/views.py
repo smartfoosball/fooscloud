@@ -162,6 +162,7 @@ class PlayerView(BaseWeixinView):
             win, lost = i.performance()
             players.append((i, win, lost))
         players = sorted(players, key=lambda x: x[1], reverse=True)
+        players = sorted(players, key=lambda x: x[2])
         ctx = {'players': players}
         return render_to_response('players.html', ctx)
 
