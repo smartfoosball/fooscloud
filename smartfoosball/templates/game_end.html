@@ -32,10 +32,8 @@
 				{% endif %}
 			</p>
 		</div>
-		<p style="height:210px;"></p>
-		<img src="/static/images/winer250.png"  style="position:absolute;left:45px;top:130px;"/>
 		{% if game.red_score > game.blue_score %}
-		<div style="position:absolute;">
+		<div style="display:block;background-image:url(/static/images/winer250.png);width:250px;height:194px;">
 			<img class="img-circle img_size score_float winer_float winer_rear"  src="{{ game.red_rear.headimgurl }}"/>
 			<img class="img-circle img_size score_float winer_float winer_van"  src="{{ game.red_van.headimgurl }}"/>
 			<img class="img-circle img_size score_float loser_float loser_van"  src="{{ game.blue_van.headimgurl }}"/>
