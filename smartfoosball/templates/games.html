@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}赛事{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="/static/css/game.css">
 {% endblock %}
@@ -30,44 +32,23 @@
 	<div class="panel games_bg">
 		<table class="table">
 			<tr>
-				<td class="text-center">
-					{% if waiting.red_rear %}
-					<img class="img-circle img_size red_img_border" src="{{ waiting.red_rear.headimgurl }}" />
-					{% else %}
-					  <button type="button" class="noborder btn-link" onclick="join_game('{{waiting.id}}', 'red_rear')">
-					    <img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
-					  </button>
-					{% endif %}
-				</td>
-				<td class="text-center"> 
-					{% if waiting.red_van %} 
-					<img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" /> 
-					{% else %} 
-					  <button type="button" class="noborder btn-link" onclick="join_game('{{waitting.id}}', 'red_van')">
-					    <img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
-					  </button>
-					{% endif %} 
-				</td>
+				<td class="text-center"> {% if waiting.red_rear %} <img class="img-circle img_size red_img_border" src="{{ waiting.red_rear.headimgurl }}" /> {% else %}
+				<button type="button" class="noborder btn-link" onclick="join_game('{{waiting.id}}', 'red_rear')">
+					<img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
+				</button> {% endif %} </td>
+				<td class="text-center"> {% if waiting.red_van %} <img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" /> {% else %}
+				<button type="button" class="noborder btn-link" onclick="join_game('{{waiting.id}}', 'red_van')">
+					<img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
+				</button> {% endif %} </td>
 
-				<td class="text-center">
-					{% if waiting.blue_van %}
-					<img class="img-circle img_size blue_img_border" src="{{ waiting.blue_van.headimgurl }}" />
-					{% else %}
-					<button type="button" class="noborder btn-link" onclick="join_game('{{waiting.id}}', 'blue_van')">
-					  <img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
-					</button>
-					{% endif %}
-
-				</td>
-				<td class="text-center">
-					{% if waiting.blue_rear %}
-					<img class="img-circle img_size blue_img_border" src="{{ waiting.blue_rear.headimgurl }}" />
-					{% else %}
-					<button type="button" class="noborder btn-link" onclick="join_game('{{waiting.id}}', 'blue_rear')">
-					  <img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
-					</button>
-					{% endif %}
-				</td>
+				<td class="text-center"> {% if waiting.blue_van %} <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_van.headimgurl }}" /> {% else %}
+				<button type="button" class="noborder btn-link" onclick="join_game('{{waiting.id}}', 'blue_van')">
+					<img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
+				</button> {% endif %} </td>
+				<td class="text-center"> {% if waiting.blue_rear %} <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_rear.headimgurl }}" /> {% else %}
+				<button type="button" class="noborder btn-link" onclick="join_game('{{waiting.id}}', 'blue_rear')">
+					<img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
+				</button> {% endif %} </td>
 			</tr>
 			<tr>
 				<td></td>

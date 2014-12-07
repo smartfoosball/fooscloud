@@ -118,17 +118,8 @@ class GameDetailView(BaseWeixinView):
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
         ctx = {'game': game}
-        
-        tpl = 'game_waiting.html'
-        if game.status == Game.Status.waiting.value:
-            tpl = 'game_waiting.html'
-        elif game.status == Game.Status.playing.value:
-            tpl = 'game_playing.html'
-        elif game.status == Game.Status.end.value:
-            tpl = 'game_end.html'
-
         ctx = RequestContext(request, ctx)
-        return render_to_response(tpl, ctx)
+        return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 
 
 class GameStartView(BaseWeixinView):
@@ -138,12 +129,13 @@ class GameStartView(BaseWeixinView):
         ctx = {'game': game}
         for i in ['red_van', 'red_rear', 'blue_van', 'blue_rear']:
             if not getattr(game, i):
-                return render_to_response('game_detail.html', ctx)
+                return render_to_response('game_%s.html' % game.get_status_display(), ctx)
         playing = Game.objects.filter(status=Game.Status.playing.value).first()
         if (not playing) and (game.status == Game.Status.waiting.value):
             game.status = Game.Status.playing.value
             game.save()
-        return render_to_response('game_detail.html', ctx)
+
+        return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 
 
 class GameEndView(BaseWeixinView):
@@ -154,7 +146,8 @@ class GameEndView(BaseWeixinView):
         if game.status == Game.Status.playing.value:
             game.status = Game.Status.end.value
             game.save()
-        return render_to_response('game_detail.html', ctx)
+
+        return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 
 
 class GameHistoryView(BaseWeixinView):
