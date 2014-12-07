@@ -33,7 +33,9 @@
 				</p></td>
 				<td><p></p>
 					{% ifequal user.player game.red_rear %}
+				        <button type="button" class="noborder btn-link" onclick="join_game('{{game.id}}', 'iwantoleave')">
 					<img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/>
+					</button>
 					{% endifequal %}
 				</td>
 			</tr>
@@ -65,7 +67,11 @@
 				<p style="color:red;font-size:15px;">
 					红队前锋
 				</p></td>
-				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/></td>
+				<td><p></p>
+				  <button type="button" class="noborder btn-link" onclick="join_game('{{game.id}}', 'iwantoleave')">
+				  <img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/>
+				  </button>
+				</td>
 			</tr>
 			{% else %}
 			<tr>
@@ -95,7 +101,11 @@
 				<p style="color:blue;font-size:15px;">
 					蓝队前锋
 				</p></td>
-				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/></td>
+				<td><p></p>
+				  <button type="button" class="noborder btn-link" onclick="join_game('{{game.id}}', 'iwantoleave')">
+				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/>
+				  </button>
+				</td>
 			</tr>
 			{% else %}
 			<tr>
@@ -125,7 +135,11 @@
 				<p style="color:blue;font-size:15px;">
 					蓝队防守
 				</p></td>
-				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/></td>
+				<td><p></p>
+				  <button type="button" class="noborder btn-link" onclick="join_game('{{game.id}}', 'iwantoleave')">
+				  <img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/>
+				  </button>
+				</td>
 			</tr>
 			{% else %}
 			<tr>
