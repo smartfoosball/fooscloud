@@ -40,7 +40,11 @@
 				<p style="color:red;font-size:15px;">
 					红队防守
 				</p></td>
-				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/></td>
+				<td><p></p>
+				  <a href="/games/{{ game.id }}/join?pos=red_rear">
+				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/>
+				  </a>
+				</td>
 			</tr>
 			{% endif %}
 
@@ -66,7 +70,11 @@
 				<p style="color:red;font-size:15px;">
 					红队前锋
 				</p></td>
-				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/></td>
+				<td><p></p>
+				  <a href="/games/{{ game.id }}/join?pos=red_van">
+				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/>
+				  </a>
+				</td>
 			</tr>
 			{% endif %}
 
@@ -92,7 +100,11 @@
 				<p style="color:blue;font-size:15px;">
 					蓝队前锋
 				</p></td>
-				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/></td>
+				<td><p></p>
+				  <a href="/games/{{ game.id }}/join?pos=blue_van">
+				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/>
+				  </a>
+				</td>
 			</tr>
 			{% endif %}
 
@@ -118,7 +130,11 @@
 				<p style="color:blue;font-size:15px;">
 					蓝队防守
 				</p></td>
-				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/></td>
+				<td><p></p>
+				  <a href="/games/{{ game.id }}/join?pos=blue_rear">
+				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/>
+				  </a>
+				</td>
 			</tr>
 			{% endif %}
 		</table>
