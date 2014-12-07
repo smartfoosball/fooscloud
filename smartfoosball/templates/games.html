@@ -1,68 +1,75 @@
 {% extends "base.html" %}
-
-{% block title %}赛事{% endblock %}
-
 {%block body%}
+<div class="container-fluid" style="margin-top:20px;">
 
-{% if playing %}
-<div class="container-fluid">
-  <div class="col-md-3 col-xs-3 ">
-		{{ playing.red_van.nickname }}
-  </div>
-  <div class="col-md-3 col-xs-3 ">
-		{{ playing.red_rear.nickname }}
-  </div>
-  <div class="col-md-3 col-xs-3 ">
-		{{ playing.blue_van.nickname }}
-  </div>
-  <div class="col-md-3 col-xs-3 ">
-		{{ playing.blue_rear.nickname }}
-  </div>
-		<a href="/games/{{ playing.id }}/">Detail</a>
-</div>
-{% endif %}
+	{% if playing %}
+	<div class="panel games_bg">
+		<table class="table">
+			<tr>
+				<td class="text-center"><img class="img-circle img_size red_img_border" src="{{ playing.red_van.headimgurl }}" /></td>
+				<td class="text-center"><img class="img-circle img_size red_img_border" src="{{ playing.red_rear.headimgurl }}" /></td>
 
-{{ wating }}
-====
-<div class="container-fluid">
-  <div class="row games_bg">
-	<div class="col-md-3 col-xs-3">
-        {% if waiting.red_van %}
-         <img src="/static/images/player_img.jpg"/>
-	{% else %}
-	 <a href="/games/{{ waiting.id }}/join?pos=red_van"><img src="/static/images/red_join.jpg"/></a>
-         
+				<td class="text-center"><img class="img-circle img_size blue_img_border" src="{{ playing.blue_van.headimgurl }}" /></td>
+				<td class="text-center"><img class="img-circle img_size blue_img_border" src="{{ playing.blue_rear.headimgurl }}" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><a href="/games/{{ playing.id }}/" style="color:white;">查看>></a></td>
+			</tr>
+		</table>
+	</div>
 	{% endif %}
-	</div>
-	<div class="col-md-3 col-xs-3">
-	{% if waiting.red_rear %}
-		{{ waiting.red_rear.nickname }}
-	{% else %}
-		<a href="/games/{{ waiting.id }}/join?pos=red_rear"><img src="/static/images/red_join.jpg"/></a>
-	{% endif %}
-	</div>
-	<div class="col-md-3 col-xs-3">
-	{% if waiting.blue_van %}
-		{{ waiting.blue_van.nickname }}
-	{% else %}
-		<a href="/games/{{ waiting.id }}/join?pos=blue_van">Join</a>
-	{% endif %}
-	</div>
-	<div class="col-md-3 col-xs-3">
-	{% if waiting.blue_rear %}
-		{{ waiting.blue_rear.nickname }}
-	{% else %}
-		<a href="/games/{{ waiting.id }}/join?pos=blue_rear">Join</a>
-	{% endif %}
-	</div>
-	<div class="col-md-12">
-	<a href="/games/{{ waiting.id }}/">Detail</a>
-	</div>
-  </div>
-</div>
-===
-<div>
-	<a href="/games/history/" >history</a>
-</div>
 
-{%endblock%}
+	<div class="panel games_bg">
+		<table class="table">
+			<tr>
+				<td class="text-center"> 
+					{% if waiting.red_van %} 
+					<img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" /> 
+					{% else %} 
+					<a href="/games/{{ waiting.id }}/join?pos=red_van"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a> 
+					{% endif %} 
+				</td>
+				<td class="text-center">
+					{% if waiting.red_rear %}
+					<img class="img-circle img_size red_img_border" src="{{ waiting.red_rear.headimgurl }}" />
+					{% else %}
+					<a href="/games/{{ waiting.id }}/join?pos=red_rear"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a>
+					{% endif %}
+				</td>
+
+				<td class="text-center">
+					{% if waiting.blue_van %}
+					<img class="img-circle img_size blue_img_border" src="{{ waiting.blue_van.headimgurl }}" />
+					{% else %}
+					<a href="/games/{{ waiting.id }}/join?pos=blue_van"><img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" /></a>
+					{% endif %}
+
+				</td>
+				<td class="text-center">
+					{% if waiting.blue_rear %}
+					<img class="img-circle img_size blue_img_border" src="{{ waiting.blue_rear.headimgurl }}" />
+					{% else %}
+					<a href="/games/{{ waiting.id }}/join?pos=blue_rear"><img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" /></a>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><a href="/games/{{ waiting.id }}/" style="color:white;">查看>></a></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-1"></div>
+		<div class="col-xs-2">
+			<a href="/games/history/" ><img class="" style="margin-top:50px;wdith:200px;height:50px;" src="/static/images/history.png"/></a>
+		</div>
+		<div class="col-xs-1"></div>
+	</div>
+	{%endblock%}
