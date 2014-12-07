@@ -41,9 +41,9 @@
 					红队防守
 				</p></td>
 				<td><p></p>
-				  <a href="/games/{{ game.id }}/join?pos=red_rear">
+				  <button type="button" class="noborder btn-link" onclick="join_game('{{game.id}}', 'red_rear')">
 				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/>
-				  </a>
+				  </button>
 				</td>
 			</tr>
 			{% endif %}
@@ -71,9 +71,9 @@
 					红队前锋
 				</p></td>
 				<td><p></p>
-				  <a href="/games/{{ game.id }}/join?pos=red_van">
+				  <button type="button" class="noborder btn-link" onclick="join_game('{{game.id}}', 'red_van')">
 				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/>
-				  </a>
+				  </button>
 				</td>
 			</tr>
 			{% endif %}
@@ -101,9 +101,9 @@
 					蓝队前锋
 				</p></td>
 				<td><p></p>
-				  <a href="/games/{{ game.id }}/join?pos=blue_van">
+				  <button type="button" class="noborder btn-link" onclick="join_game('{{game.id}}', 'blue_van')">
 				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/>
-				  </a>
+				  </button>
 				</td>
 			</tr>
 			{% endif %}
@@ -131,9 +131,9 @@
 					蓝队防守
 				</p></td>
 				<td><p></p>
-				  <a href="/games/{{ game.id }}/join?pos=blue_rear">
+				  <button type="button" class="noborder btn-link" onclick="join_game('{{game.id}}', 'blue_rear')">
 				    <img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/>
-				  </a>
+				  </button>
 				</td>
 			</tr>
 			{% endif %}
