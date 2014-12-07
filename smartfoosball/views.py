@@ -110,7 +110,7 @@ class GameJoinView(BaseWeixinView):
                 game.save()
         except AttributeError:
             game.save()
-        return redirect(reverse('games'))
+        return HttpResponse('')
 
 
 class GameDetailView(BaseWeixinView):
@@ -140,7 +140,7 @@ class GameStartView(BaseWeixinView):
             if not getattr(game, i):
                 return render_to_response('game_detail.html', ctx)
         playing = Game.objects.filter(status=Game.Status.playing.value).first()
-        if not playing:
+        if (not playing) and (game.status == Game.Status.waiting.value):
             game.status = Game.Status.playing.value
             game.save()
         return render_to_response('game_detail.html', ctx)
@@ -151,17 +151,22 @@ class GameEndView(BaseWeixinView):
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
         ctx = {'game': game}
-        game.status = Game.Status.end.value
-        game.save()
+        if game.status == Game.Status.playing.value:
+            game.status = Game.Status.end.value
+            game.save()
         return render_to_response('game_detail.html', ctx)
 
 
 class GameHistoryView(BaseWeixinView):
     
     def get(self, request):
-        return render_to_response(
-            'game_history.html', 
-            {'games': Game.objects.filter(status=Game.Status.end.value).order_by('-updated_at')[:10]})
+        query = Q(status=Game.Status.end.value)
+        player = request.GET.get('player')
+        if player:
+            player = int(player)
+            query &= (Q(red_van__id=player) | Q(red_rear__id=player) | Q(blue_van__id=player) | Q(blue_rear__id=player))
+        games = Game.objects.filter(query).order_by('-updated_at')[:10]
+        return render_to_response('game_history.html', {'games': games})
 
 
 class PlayerView(BaseWeixinView):

@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/game.css">
+{% endblock %}
+
 {%block body%}
 <div class="container-fluid" style="margin-top:20px;">
 
@@ -74,10 +79,8 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xs-1"></div>
-		<div class="col-xs-2">
+		<div class="text-center">
 			<a href="/games/history/" ><img class="" style="margin-top:50px;wdith:200px;height:50px;" src="/static/images/history.png"/></a>
 		</div>
-		<div class="col-xs-1"></div>
 	</div>
 	{%endblock%}

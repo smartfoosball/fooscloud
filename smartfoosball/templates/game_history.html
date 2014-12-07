@@ -1,15 +1,31 @@
 {% extends "base.html" %}
 
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/game.css">
+{% endblock %}
+
 {% block title %}赛事{% endblock %}
 
 {%block body%}
-
-{% for g in games %}
-<div>
-	<p>Red: {{ g.red_van.nickname }} &amp; {{ g.red_rear.nickname }}</p>
-	<p>{{ g.red_score }} : {{ g.blue_score }}</p>
-	<p>Blue: {{ g.blue_van.nickname }} &amp; {{ g.blue_rear.nickname }}</p>
+<div class="container-fluid" style="margin-top:20px;">
+	{% for g in games %}
+	<div class="panel games_bg">
+		<table class="table">
+			<tr>
+				<td rowspan="2"><img class="img-circle img_size red_img_border" src="{{ g.red_rear.headimgurl }}" /></td>
+				<td colspan="3" align="center" class="white lead"><span class="red">{{ g.red_score }}</span> : <span class="blue">{{ g.blue_score }}</span></td>
+				<td rowspan="2"><img class="img-circle img_size blue_img_border" src="{{ g.blue_rear.headimgurl }}" /></td>
+			</tr>
+			<tr>
+				<td class="no-top-border"><img class="img-circle img_size red_img_border" src="{{ g.red_van.headimgurl }}" /></td>
+				<td align="center" class="no-top-border white">VS</td>
+				<td class="no-top-border"><img class="img-circle img_size blue_img_border" src="{{ g.blue_van.headimgurl }}" /></td>
+			</tr>
+			<tr>
+				<td colspan="5" class="white">{{ g.updated_at }}</td>
+			</tr>
+		</table>
+	</div>
+	{% endfor %}
 </div>
-{% endfor %}
-
 {% endblock %}

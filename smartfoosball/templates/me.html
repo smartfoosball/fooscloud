@@ -3,7 +3,6 @@
 {% block title %}{{ user.player.nickname }}{% endblock %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/static/css/players.css">
 <link rel="stylesheet" type="text/css" href="/static/css/me.css">
 {% endblock %}
 
@@ -14,7 +13,7 @@
 			点击右上角分享此页面 ↑️
 		</p>
 	</div>
-	<div class="well">
+	<div class="well mt20">
 		<div class="row">
 			<p class="text-center">
 				<img src="{{ user.player.headimgurl }}" class="img-circle" width="80">
@@ -40,9 +39,9 @@
 		</div>
 		<div class="row">
 			<p class="text-center">
-				<button class="btn btn-success">
+				<a class="btn btn-success" href="/games/history/?player={{ user.player.id }}">
 					赛事记录
-				</button>
+				</a>
 			</p>
 		</div>
 	</div>
