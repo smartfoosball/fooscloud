@@ -59,3 +59,6 @@ LOGGING = {
 TOKEN = ''
 WX_APPID = ''
 WX_SECRET = ''
+
+PRODUCT_KEY = ''
+GW_APPID = ''
