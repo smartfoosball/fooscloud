@@ -35,7 +35,7 @@ body {
 }
 
 .score_float {
-	position: relative;
+	float: left;
 }
 .winer_float {
 	left: 30px;

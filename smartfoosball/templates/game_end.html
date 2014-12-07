@@ -33,11 +33,11 @@
 			</p>
 		</div>
 		{% if game.red_score > game.blue_score %}
-		<div style="display:block;background-image:url(/static/images/winer250.png);width:250px;height:194px;">
-			<img class="img-circle img_size score_float winer_float winer_rear"  src="{{ game.red_rear.headimgurl }}"/>
-			<img class="img-circle img_size score_float winer_float winer_van"  src="{{ game.red_van.headimgurl }}"/>
-			<img class="img-circle img_size score_float loser_float loser_van"  src="{{ game.blue_van.headimgurl }}"/>
-			<img class="img-circle img_size score_float loser_float loser_rear"  src="{{ game.blue_rear.headimgurl }}"/>
+		<div style="display:block;background-image:url(/static/images/winer250.png);width:250px;height:245px;background-repeat: no-repeat;" class="center-block">
+			<img class="img-circle img_size score_float" style="margin-top: 25px; margin-left: -5px;"   src="{{ game.red_rear.headimgurl }}"/>
+			<img class="img-circle img_size score_float" style="margin-top: 20px; margin-left: 15px;"  src="{{ game.red_van.headimgurl }}"/>
+			<img class="img-circle img_size score_float" style="margin-top: 150px; margin-left: 25px;" src="{{ game.blue_van.headimgurl }}"/>
+			<img class="img-circle img_size score_float" style="margin-top: 150px; margin-left: 15px;"  src="{{ game.blue_rear.headimgurl }}"/>
 		</div>
 		<div class="panel-footer">
 			<p>
@@ -45,11 +45,11 @@
 			</p>
 		</div>
 		{% else %}
-		<div style="position:absolute;">
-			<img class="img-circle img_size score_float winer_float winer_rear"  src="{{ game.blue_rear.headimgurl }}"/>
-			<img class="img-circle img_size score_float winer_float winer_van"  src="{{ game.blue_van.headimgurl }}"/>
-			<img class="img-circle img_size score_float loser_float loser_van"  src="{{ game.red_van.headimgurl }}"/>
-			<img class="img-circle img_size score_float loser_float loser_rear"  src="{{ game.red_rear.headimgurl }}"/>
+		<div style="display:block;background-image:url(/static/images/winer250.png);width:250px;height:245px;background-repeat: no-repeat;" class="center-block">
+			<img class="img-circle img_size score_float" style="margin-top: 25px; margin-left: -5px;"  src="{{ game.blue_rear.headimgurl }}"/>
+			<img class="img-circle img_size score_float" style="margin-top: 20px; margin-left: 15px;"  src="{{ game.blue_van.headimgurl }}"/>
+			<img class="img-circle img_size score_float" style="margin-top: 150px; margin-left: 25px;" src="{{ game.red_van.headimgurl }}"/>
+			<img class="img-circle img_size score_float" style="margin-top: 150px; margin-left: 15px;" src="{{ game.red_rear.headimgurl }}"/>
 		</div>
 		<div class="panel-footer">
 			<p>
