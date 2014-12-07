@@ -140,7 +140,7 @@ class GameStartView(BaseWeixinView):
             if not getattr(game, i):
                 return render_to_response('game_detail.html', ctx)
         playing = Game.objects.filter(status=Game.Status.playing.value).first()
-        if not playing:
+        if (not playing) and (game.status == Game.Status.waiting.value):
             game.status = Game.Status.playing.value
             game.save()
         return render_to_response('game_detail.html', ctx)
@@ -151,8 +151,9 @@ class GameEndView(BaseWeixinView):
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
         ctx = {'game': game}
-        game.status = Game.Status.end.value
-        game.save()
+        if game.status == Game.Status.playing.value:
+            game.status = Game.Status.end.value
+            game.save()
         return render_to_response('game_detail.html', ctx)
 
 
