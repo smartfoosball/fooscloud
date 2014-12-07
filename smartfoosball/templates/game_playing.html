@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{%block body%}
+
+<div class="container-fluid" style="margin-top:20px;">
+	<div class="panel panel-default">
+		<div class="panel-heading text-center" style="font-size:18px;">
+			赛事进行中
+		</div>
+		<table class="table tbl_player">
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size red_img_border" src="{{ game.red_rear.headimgurl }}"/></td>
+				<td class="pull-left">
+				<p>
+					{{ game.red_rear.nickname }}
+				</p>
+				<p style="color:red;font-size:15px;">
+					红队防守
+				</p></td>
+				<td><p></p></td>
+			</tr>
+
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size red_img_border" src="{{ game.red_van.headimgurl }}"/></td>
+				<td class="pull-left">
+				<p>
+					{{ game.red_van.nickname }}
+				</p>
+				<p style="color:red;font-size:15px;">
+					红队前锋
+				</p></td>
+				<td><p></p></td>
+			</tr>
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size blue_img_border" src="{{ game.blue_van.headimgurl }}"/></td>
+				<td class="pull-left">
+				<p>
+					{{ game.blue_van.nickname }}
+				</p>
+				<p style="color:blue;font-size:15px;">
+					蓝队前锋
+				</p></td>
+				<td><p></p></td>
+			</tr>
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size blue_img_border" src="{{ game.blue_rear.headimgurl }}"/></td>
+				<td class="pull-left">
+				<p>
+					{{ game.blue_rear.nickname }}
+				</p>
+				<p style="color:blue;font-size:15px;">
+					蓝队防守
+				</p></td>
+				<td><p></p></td>
+			</tr>
+
+		</table>
+		<div class="panel-footer">
+			<p class="text-center center-block" style="background-image:url(/static/images/score_board_bg.png);background-repeat:no-repeat; width:150px; height:37px;">
+				<span style="font-size:25px;color:red;"> {{ game.red_score }} </span>
+				<span style="font-size:25px;"> : </span>
+				<span style="font-size:25px;color:blue;"> {{ game.blue_score }} </span>
+			</p>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
