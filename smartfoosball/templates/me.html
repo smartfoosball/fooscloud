@@ -2,10 +2,15 @@
 
 {% block title %}{{ user.player.nickname }}{% endblock %}
 
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/players.css">
+<link rel="stylesheet" type="text/css" href="/static/css/me.css">
+{% endblock %}
+
 {%block body%}
 <div class="container">
 	<div>
-		<p class="text-right">
+		<p class="text-right white">
 			点击右上角分享此页面 ↑️
 		</p>
 	</div>
