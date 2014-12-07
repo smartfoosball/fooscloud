@@ -1,4 +1,43 @@
 {%extends "base.html"%}
+
 {%block body%}
-me
+<div class="container">
+	<div>
+		<p class="text-right">
+			点击右上角分享此页面 ↑️
+		</p>
+	</div>
+	<div class="well">
+		<div class="row">
+			<p class="text-center">
+				<img src="{{ user.player.headimgurl }}" class="img-circle" width="80">
+			</p>
+			<p class="text-center">
+				{{ user.player.nickname }}
+			</p>
+		</div>
+		<div class="row">
+			<p class="text-left">
+				<strong>排名:</strong> {{ rank }} / {{ tot_players }}
+			</p>
+		</div>
+		<div class="row">
+			<p class="text-left">
+				<strong>成绩:</strong> 胜 {{ win }} / 负 {{ lost }}
+			</p>
+		</div>
+		<div class="row">
+			<p class="text-left">
+				<strong>拍档</strong>：{% for i in partners %}<img src="{{ i.headimgurl }}" class="img-circle" width="40">&nbsp;{% endfor %}
+			</p>
+		</div>
+		<div class="row">
+			<p class="text-center">
+				<button class="btn btn-success">
+					赛事记录
+				</button>
+			</p>
+		</div>
+	</div>
+</div>
 {%endblock%}
