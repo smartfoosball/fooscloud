@@ -1,34 +1,68 @@
 {% extends "base.html" %}
 {%block body%}
 <div class="container-fluid" style="margin-top:20px;">
-  <div class="row games_bg games_panel games_margin">
-	<div class="col-md-3 col-xs-3 game_col">
-         <img class="img-circle img_size" src="/static/images/head_img.jpg" />
-	     <!-- <a href="/games/{{ waiting.id }}/join?pos=red_van"><img class="img-circle img_size" src="/static/images/red_join.png"/></a>-->
-	</div>
-	<div class="col-md-3 col-xs-3 game_col">
-		<a href="/games/{{ waiting.id }}/join?pos=red_rear"><img class="img-circle img_size"  src="/static/images/red_join.png"/></a>
-	</div>
-	<div class="col-md-3 col-xs-3 game_col">
-		<a href="/games/{{ waiting.id }}/join?pos=blue_van"><img class="img-circle img_size" src="/static/images/blue_join.png"/></a>
-	</div>
-	<div class="col-md-3 col-xs-3 game_col">
-		<a href="/games/{{ waiting.id }}/join?pos=blue_rear"><img class="img-circle img_size" src="/static/images/blue_join.png"/></a>
-	</div>
-  </div>
-  	<div class="row games_bg games_margin game_col" style="margin-top:5px;">
-		<div class="col-md-11" >
-			<a href="/games/{{ waiting.id }}/" style="color:white;">查看>></a>
+
+		<div class="panel games_bg">
+			<table class="table">
+				<tr>
+					<td class="text-center">
+				         <img class="img-circle img_size red_img_border" src="/static/images/head_img.jpg" />
+					</td>
+					<td class="text-center">
+				         <img class="img-circle img_size red_img_border" src="/static/images/head_img.jpg" />
+
+				     </td>
+
+					<td class="text-center">
+				         <img class="img-circle img_size blue_img_border" src="/static/images/head_img.jpg" />
+					</td>
+					<td class="text-center">
+				         <img class="img-circle img_size blue_img_border" src="/static/images/head_img.jpg" />
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><a href="/games/{{ waiting.id }}/" style="color:white;">查看>></a></td>
+				</tr>
+			</table>
 		</div>
-	</div>
-</div>
+
+		<div class="panel games_bg">
+			<table class="table">
+				<tr>
+					<td class="text-center">
+				         <img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
+					</td>
+					<td class="text-center">
+				         <img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
+
+				     </td>
+
+					<td class="text-center">
+				         <img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
+					</td>
+					<td class="text-center">
+				         <img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><a href="/games/{{ waiting.id }}/" style="color:white;">查看>></a></td>
+				</tr>
+			</table>
+		</div>
+
 <div class="row">
-	<div class="col-md-3 col-xs-2">
+	<div class="col-xs-1">
 	</div>
-	<div class="col-md-6 col-xs-2">
+	<div class="col-xs-2">
 		<a href="/games/history/" ><img class="" style="margin-top:50px;wdith:200px;height:50px;" src="/static/images/history.png"/></a>
 	</div>
-	<div class="col-md-3 col-xs-2">
+	<div class="col-xs-1">
 	</div>
 </div>
 {%endblock%}
