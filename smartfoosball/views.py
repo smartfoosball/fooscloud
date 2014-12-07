@@ -159,9 +159,13 @@ class GameEndView(BaseWeixinView):
 class GameHistoryView(BaseWeixinView):
     
     def get(self, request):
-        return render_to_response(
-            'game_history.html', 
-            {'games': Game.objects.filter(status=Game.Status.end.value).order_by('-updated_at')[:10]})
+        query = Q(status=Game.Status.end.value)
+        player = request.GET.get('player')
+        if player:
+            player = int(player)
+            query &= (Q(red_van__id=player) | Q(red_rear__id=player) | Q(blue_van__id=player) | Q(blue_rear__id=player))
+        games = Game.objects.filter(query).order_by('-updated_at')[:10]
+        return render_to_response('game_history.html', {'games': games})
 
 
 class PlayerView(BaseWeixinView):
