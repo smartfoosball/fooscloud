@@ -1,3 +1,19 @@
 .tbl_player > tbody > tr > td {
 	border-top: none;
 }
+
+.no-top-border {
+	border-top: none!important;
+}
+
+.white {
+	color: #FFF;
+}
+
+.red {
+	color: red;
+}
+
+.blue {
+	color: blue;
+}
