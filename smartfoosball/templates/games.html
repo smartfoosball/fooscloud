@@ -6,8 +6,8 @@
 	<div class="panel games_bg">
 		<table class="table">
 			<tr>
-				<td class="text-center"><img class="img-circle img_size red_img_border" src="{{ playing.red_van.headimgurl }}" /></td>
 				<td class="text-center"><img class="img-circle img_size red_img_border" src="{{ playing.red_rear.headimgurl }}" /></td>
+				<td class="text-center"><img class="img-circle img_size red_img_border" src="{{ playing.red_van.headimgurl }}" /></td>
 
 				<td class="text-center"><img class="img-circle img_size blue_img_border" src="{{ playing.blue_van.headimgurl }}" /></td>
 				<td class="text-center"><img class="img-circle img_size blue_img_border" src="{{ playing.blue_rear.headimgurl }}" /></td>
@@ -25,19 +25,19 @@
 	<div class="panel games_bg">
 		<table class="table">
 			<tr>
-				<td class="text-center"> 
-					{% if waiting.red_van %} 
-					<img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" /> 
-					{% else %} 
-					<a href="/games/{{ waiting.id }}/join?pos=red_van"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a> 
-					{% endif %} 
-				</td>
 				<td class="text-center">
 					{% if waiting.red_rear %}
 					<img class="img-circle img_size red_img_border" src="{{ waiting.red_rear.headimgurl }}" />
 					{% else %}
 					<a href="/games/{{ waiting.id }}/join?pos=red_rear"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a>
 					{% endif %}
+				</td>
+				<td class="text-center"> 
+					{% if waiting.red_van %} 
+					<img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" /> 
+					{% else %} 
+					<a href="/games/{{ waiting.id }}/join?pos=red_van"><img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" /></a> 
+					{% endif %} 
 				</td>
 
 				<td class="text-center">

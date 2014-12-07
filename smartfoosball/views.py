@@ -118,7 +118,17 @@ class GameDetailView(BaseWeixinView):
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
         ctx = {'game': game}
-        return render_to_response('game_detail.html', ctx)
+        
+        tpl = 'game_waiting.html'
+        if game.status == Game.Status.waiting.value:
+            tpl = 'game_waiting.html'
+        elif game.status == Game.Status.playing.value:
+            tpl = 'game_playing.html'
+        elif game.status == Game.Status.end.value:
+            tpl = 'game_end.html'
+
+        ctx = RequestContext(request, ctx)
+        return render_to_response(tpl, ctx)
 
 
 class GameStartView(BaseWeixinView):

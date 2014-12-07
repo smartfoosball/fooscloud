@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{%block body%}
+
+<!-- waiting -->
+
+<div class="container-fluid" style="margin-top:20px;">
+	<div class="panel panel-default">
+		<div class="panel-heading text-center" style="font-size:18px;">
+			{% if game.red_rear and game.red_van and game.blue_van and game.blue_rear %}
+			准备就绪
+			{% else %}
+			等待加入
+			{% endif %}
+		</div>
+		<table class="table tbl_player">
+			{% if game.red_rear %}
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size red_img_border" src="{{ game.red_rear.headimgurl }}"/></td>
+				<td class="pull-left">
+				<p>
+					{{ game.red_rear.nickname }}
+				</p>
+				<p style="color:red;font-size:15px;">
+					红队防守
+				</p></td>
+				<td><p></p>
+					{% ifequal user.player game.red_rear %}
+					<img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/>
+					{% endifequal %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size red_img_border" src="/static/images/blank.png"/></td>
+				<td class="pull-left">
+				<p>
+					未加入
+				</p>
+				<p style="color:red;font-size:15px;">
+					红队防守
+				</p></td>
+				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/></td>
+			</tr>
+			{% endif %}
+
+			{% if game.red_van %}
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size red_img_border" src="{{ game.red_van.headimgurl }}"/></td>
+				<td class="pull-left">
+				<p>
+					{{ game.red_van.nickname }}
+				</p>
+				<p style="color:red;font-size:15px;">
+					红队前锋
+				</p></td>
+				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/></td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size red_img_border" src="/static/images/blank.png"/></td>
+				<td class="pull-left">
+				<p>
+					未加入
+				</p>
+				<p style="color:red;font-size:15px;">
+					红队前锋
+				</p></td>
+				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/></td>
+			</tr>
+			{% endif %}
+
+			{% if game.blue_van %}
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size blue_img_border" src="{{ game.blue_van.headimgurl }}"/></td>
+				<td class="pull-left">
+				<p>
+					{{ game.blue_van.nickname }}
+				</p>
+				<p style="color:blue;font-size:15px;">
+					蓝队前锋
+				</p></td>
+				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/></td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size blue_img_border" src="/static/images/blank.png"/></td>
+				<td class="pull-left">
+				<p>
+					未加入
+				</p>
+				<p style="color:blue;font-size:15px;">
+					蓝队前锋
+				</p></td>
+				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/></td>
+			</tr>
+			{% endif %}
+
+			{% if game.blue_rear %}
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size blue_img_border" src="{{ game.blue_rear.headimgurl }}"/></td>
+				<td class="pull-left">
+				<p>
+					{{ game.blue_rear.nickname }}
+				</p>
+				<p style="color:blue;font-size:15px;">
+					蓝队防守
+				</p></td>
+				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/leave.png"/></td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="pull-left"><img class="img-circle img_size blue_img_border" src="/static/images/blank.png"/></td>
+				<td class="pull-left">
+				<p>
+					未加入
+				</p>
+				<p style="color:blue;font-size:15px;">
+					蓝队防守
+				</p></td>
+				<td><p></p><img class="center-block" style="width:48px; height:25px;" src="/static/images/join.png"/></td>
+			</tr>
+			{% endif %}
+		</table>
+		<div class="panel-footer">
+			{% if game.red_rear and game.red_van and game.blue_van and game.blue_rear %}
+			<a href="/games/{{ game.id }}/start"><img class="center-block" style="width:150px;height:35" src="/static/images/gogogo.png"/></a>
+			{% else %}
+			<p class="text-left center-block" style="margin-left:20px;font-size:18px;">
+				人齐后即可开始!
+				</br>
+				分享此页面邀请朋友加入赛事。
+			</p>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
