@@ -157,9 +157,11 @@ class GameHistoryView(BaseWeixinView):
 class PlayerView(BaseWeixinView):
 
     def get(self, request):
-        players = Player.objects.all()
-        for i in players:
-            i.win, i.lost = i.performance()
+        players = []
+        for i in Player.objects.all():
+            win, lost = i.performance()
+            players.append((i, win, lost))
+        sorted(players, key=lambda x: x[1], reverse=True)
         ctx = {'players': players}
         return render_to_response('players.html', ctx)
 

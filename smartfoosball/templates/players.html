@@ -15,9 +15,9 @@
 				<tbody>
 					<tr>
 						<td>{{ forloop.counter }}</td>
-						<td width="50"><img src="{{ i.headimgurl }}" class="img-circle" width="40"></td>
-						<td>{{ i.nickname }}</td>
-						<td align="right">胜 {{ i.win }} / 负 {{ i.lost }}</td>
+						<td width="50"><img src="{{ i.0.headimgurl }}" class="img-circle" width="40"></td>
+						<td>{{ i.0.nickname }}</td>
+						<td align="right">胜 {{ i.1 }} / 负 {{ i.2 }}</td>
 					</tr>
 				</tbody>
 			</table>
