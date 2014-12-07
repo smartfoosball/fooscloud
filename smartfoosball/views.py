@@ -110,7 +110,7 @@ class GameJoinView(BaseWeixinView):
                 game.save()
         except AttributeError:
             game.save()
-        return redirect(reverse('games'))
+        return HttpResponse('')
 
 
 class GameDetailView(BaseWeixinView):
