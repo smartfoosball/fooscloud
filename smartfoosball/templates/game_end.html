@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{%block body%}
+
+<div class="container-fluid" style="margin-top:20px;">
+	<div class="panel panel-default">
+		<div class="panel-heading text-center" style="font-size:18px;">
+			赛事完成
+		</div>
+		<div class="panel-body">
+			<p class="text-center center-block" style="">
+				{% if game.red_score > game.blue_score %}
+				<span style="font-size:25px;color:red;"> {{ game.red_score }} </span>
+				<span style="font-size:25px;"> : </span>
+				<span style="font-size:25px;color:blue;"> {{ game.blue_score }} </span>
+				{% else %}
+				<span style="font-size:25px;color:blue;"> {{ game.blue_score }} </span>
+				<span style="font-size:25px;"> : </span>
+				<span style="font-size:25px;color:red;"> {{ game.red_score }} </span>
+				{% endif %}
+			</p>
+		</div>
+		<p style="height:210px;"></p>
+		<img src="/static/images/winer250.png"  style="position:absolute;left:45px;top:130px;"/>
+		{% if game.red_score > game.blue_score %}
+		<div style="position:absolute;">
+			<img class="img-circle img_size score_float winer_float winer_rear"  src="{{ game.red_rear.headimgurl }}"/>
+			<img class="img-circle img_size score_float winer_float winer_van"  src="{{ game.red_van.headimgurl }}"/>
+			<img class="img-circle img_size score_float loser_float loser_van"  src="{{ game.blue_van.headimgurl }}"/>
+			<img class="img-circle img_size score_float loser_float loser_rear"  src="{{ game.blue_rear.headimgurl }}"/>
+		</div>
+		<div class="panel-footer">
+			<p>
+				红队以 {{ game.red_score }} : {{ game.blue_score }} 的比分击败了蓝队!
+			</p>
+		</div>
+		{% else %}
+		<div style="position:absolute;">
+			<img class="img-circle img_size score_float winer_float winer_rear"  src="{{ game.blue_rear.headimgurl }}"/>
+			<img class="img-circle img_size score_float winer_float winer_van"  src="{{ game.blue_van.headimgurl }}"/>
+			<img class="img-circle img_size score_float loser_float loser_van"  src="{{ game.red_van.headimgurl }}"/>
+			<img class="img-circle img_size score_float loser_float loser_rear"  src="{{ game.red_rear.headimgurl }}"/>
+		</div>
+		<div class="panel-footer">
+			<p>
+				蓝队以 {{ game.blue_score }} : {{ game.red_score }} 的比分击败了红队!
+			</p>
+		</div>
+
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
