@@ -1,4 +1,27 @@
 {% extends "base.html" %}
+
 {%block body%}
-players
+<div class="container">
+	<div>
+		<p class="text-right">
+			点击右上角分享此页面 ↑️
+		</p>
+	</div>
+
+	{% for i in players %}
+	<div class="well">
+		<div class="row">
+			<table width="100%">
+				<tbody>
+					<tr>
+						<td width="50"><img src="{{ i.headimgurl }}" class="img-circle" width="40"></td>
+						<td>{{ i.nickname }}</td>
+						<td align="right">胜 {{ i.win }} / 负 {{ i.lost }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{% endfor %}
+</div>
 {%endblock%}
