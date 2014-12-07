@@ -161,7 +161,7 @@ class PlayerView(BaseWeixinView):
         for i in Player.objects.all():
             win, lost = i.performance()
             players.append((i, win, lost))
-        sorted(players, key=lambda x: x[1], reverse=True)
+        players = sorted(players, key=lambda x: x[1], reverse=True)
         ctx = {'players': players}
         return render_to_response('players.html', ctx)
 
@@ -174,7 +174,7 @@ class MeView(BaseWeixinView):
         performances = []
         for i in Player.objects.all():
             performances.append((i, i.performance()[0]))
-        sorted(performances, key=lambda x: x[1], reverse=True)
+        performances = sorted(performances, key=lambda x: x[1], reverse=True)
         ctx = RequestContext(
             request, 
             {"win": win, 
