@@ -75,15 +75,6 @@ class BaseWeixinView(View):
 class GameView(BaseWeixinView):
 
     def get(self, request):
-        '''
-        {
-        'game_id':str,
-        'teams':{1:{1:player_object, 2:player_object}, 2:{1:player_obj,2:player_obj}},
-        }
-        {
-            "games":[{game_id:str, teams:{...}}]
-        }
-        '''
         playing = Game.objects.filter(status=Game.Status.playing.value).first()
         waiting = Game.objects.filter(status=Game.Status.waiting.value).first()
         if (not playing) and (not waiting):
@@ -129,13 +120,13 @@ class GameStartView(BaseWeixinView):
         ctx = {'game': game}
         for i in ['red_van', 'red_rear', 'blue_van', 'blue_rear']:
             if not getattr(game, i):
-                return render_to_response('game_%s.html' % game.get_status_display(), ctx)
+                return redirect(reverse('game_detail', kwargs={'gid': game.id}))
         playing = Game.objects.filter(status=Game.Status.playing.value).first()
         if (not playing) and (game.status == Game.Status.waiting.value):
             game.status = Game.Status.playing.value
             game.save()
 
-        return render_to_response('game_%s.html' % game.get_status_display(), ctx)
+        return redirect(reverse('game_detail', kwargs={'gid': game.id}))
 
 
 class GameEndView(BaseWeixinView):
@@ -147,7 +138,7 @@ class GameEndView(BaseWeixinView):
             game.status = Game.Status.end.value
             game.save()
 
-        return render_to_response('game_%s.html' % game.get_status_display(), ctx)
+        return redirect(reverse('game_detail', kwargs={'gid': game.id}))
 
 
 class GameHistoryView(BaseWeixinView):
