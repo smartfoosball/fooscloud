@@ -77,7 +77,7 @@ class GameView(BaseWeixinView):
     def get(self, request):
         playing = Game.objects.filter(status=Game.Status.playing.value).first()
         waiting = Game.objects.filter(status=Game.Status.waiting.value).first()
-        if (not playing) and (not waiting):
+        if not waiting:
             waiting = Game()
             waiting.save()
         ctx = {'playing': playing, 'waiting': waiting}
