@@ -5,3 +5,5 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
+
+noborder {margin:0px;padding:0px;}
