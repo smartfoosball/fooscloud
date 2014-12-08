@@ -153,7 +153,9 @@
 		</table>
 		<div class="panel-footer">
 			{% if game.red_rear and game.red_van and game.blue_van and game.blue_rear %}
+			{% if user.player == game.red_rear or user.player == game.red_van or user.player == game.blue_van or user.player == game.blue_rear  %}
 			<a href="/games/{{ game.id }}/start"><img class="center-block" style="width:150px;height:35" src="/static/images/gogogo.png"/></a>
+			{% endif %}
 			{% else %}
 			<p class="text-left center-block" style="margin-left:20px;font-size:18px;">
 				人齐后即可开始!

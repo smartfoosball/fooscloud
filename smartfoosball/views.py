@@ -122,7 +122,8 @@ class GameStartView(BaseWeixinView):
             if not getattr(game, i):
                 return redirect(reverse('game_detail', kwargs={'gid': game.id}))
         playing = Game.objects.filter(status=Game.Status.playing.value).first()
-        if (not playing) and (game.status == Game.Status.waiting.value):
+        if (not playing) and (game.status == Game.Status.waiting.value) and (
+            request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
             game.status = Game.Status.playing.value
             game.save()
 
@@ -134,7 +135,8 @@ class GameEndView(BaseWeixinView):
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
         ctx = {'game': game}
-        if game.status == Game.Status.playing.value:
+        if (game.status == Game.Status.playing.value) and (
+            request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
             game.status = Game.Status.end.value
             game.save()
 
