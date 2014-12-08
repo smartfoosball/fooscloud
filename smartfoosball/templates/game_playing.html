@@ -24,7 +24,7 @@
 				<td class="pull-left"><img class="img-circle img_size red_img_border" src="{{ game.red_rear.headimgurl }}"/></td>
 				<td class="pull-left">
 				<p>
-					{{ game.red_rear.nickname }}
+					{{ game.red_rear.nickname|slice:"10" }}
 				</p>
 				<p style="color:red;font-size:15px;">
 					红队防守
@@ -36,7 +36,7 @@
 				<td class="pull-left"><img class="img-circle img_size red_img_border" src="{{ game.red_van.headimgurl }}"/></td>
 				<td class="pull-left">
 				<p>
-					{{ game.red_van.nickname }}
+					{{ game.red_van.nickname|slice:"10" }}
 				</p>
 				<p style="color:red;font-size:15px;">
 					红队前锋
@@ -47,7 +47,7 @@
 				<td class="pull-left"><img class="img-circle img_size blue_img_border" src="{{ game.blue_van.headimgurl }}"/></td>
 				<td class="pull-left">
 				<p>
-					{{ game.blue_van.nickname }}
+					{{ game.blue_van.nickname|slice:"10" }}
 				</p>
 				<p style="color:blue;font-size:15px;">
 					蓝队前锋
@@ -58,7 +58,7 @@
 				<td class="pull-left"><img class="img-circle img_size blue_img_border" src="{{ game.blue_rear.headimgurl }}"/></td>
 				<td class="pull-left">
 				<p>
-					{{ game.blue_rear.nickname }}
+					{{ game.blue_rear.nickname|slice:"10" }}
 				</p>
 				<p style="color:blue;font-size:15px;">
 					蓝队防守
