@@ -20,9 +20,9 @@
 			<table width="100%">
 				<tbody>
 					<tr>
-						<td>{{ forloop.counter }}</td>
-						<td width="50"><img src="{{ i.0.headimgurl }}" class="img-circle" width="40"></td>
-						<td>{{ i.0.nickname }}</td>
+						<td class="w32">{{ forloop.counter }}</td>
+						<td class="w50"><img src="{{ i.0.headimgurl }}" class="img-circle img_size"></td>
+						<td class="text-left">{{ i.0.nickname }}</td>
 						<td align="right">胜 {{ i.1 }} / 负 {{ i.2 }}</td>
 					</tr>
 				</tbody>

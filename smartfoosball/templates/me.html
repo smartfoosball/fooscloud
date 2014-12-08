@@ -16,7 +16,7 @@
 	<div class="well mt20">
 		<div class="row">
 			<p class="text-center">
-				<img src="{{ user.player.headimgurl }}" class="img-circle" width="80">
+				<img src="{{ user.player.headimgurl }}" class="img-circle head_me">
 			</p>
 			<p class="text-center">
 				{{ user.player.nickname }}
@@ -34,7 +34,7 @@
 		</div>
 		<div class="row">
 			<p class="text-left">
-				<strong>拍档</strong>：{% for i in partners %}<img src="{{ i.headimgurl }}" class="img-circle" width="40">&nbsp;{% endfor %}
+				<strong>拍档</strong>：{% for i in partners %}<img src="{{ i.headimgurl }}" class="img-circle img_size">&nbsp;{% endfor %}
 			</p>
 		</div>
 		<div class="row">
