@@ -21,6 +21,7 @@
 			{% else %}
 			等待加入
 			{% endif %}
+			<button class="btn-link" onclick="page_refresh()"><span class="glyphicon glyphicon-refresh"></span></a>
 		</div>
 		<table class="table tbl_player">
 			{% if game.red_rear %}
@@ -166,6 +167,11 @@
 		</div>
 	</div>
 </div>
+<script>
+function page_refresh(){
+    location.reload(true);
+}
 
+</script>
 {% endblock %}
 
