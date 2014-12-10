@@ -189,6 +189,19 @@ class MeView(BaseWeixinView):
         return render_to_response('me.html', ctx)
 
 
+class GameScoreView(View):
+    def get(self, request, gid):
+        game = get_object_or_404(Game, id=gid)
+        return render_json_response({"red_score":game.red_score, "blue_score":game.blue_score})
+
+
+def render_json_response(ret, status=200, headers={}):
+    resp = HttpResponse(json.dumps(ret), status=status, mimetype='application/json')
+    for k, v in headers.items():
+        resp[k] = v
+    return resp
+
+
 def wechat_oauth2(request):
     code = request.GET.get('code')
     if code:
