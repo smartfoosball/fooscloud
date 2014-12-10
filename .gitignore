@@ -58,3 +58,6 @@ target/
 
 #local_setting
 local_settings.py
+
+#mac ds_store
+.DS_Store
