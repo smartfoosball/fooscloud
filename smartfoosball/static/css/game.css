@@ -6,4 +6,4 @@ html {
   background-size: cover;
 }
 
-noborder {margin:0px;padding:0px;}
+.noborder {border:0px;margin:0px;padding:0px;}
