@@ -84,7 +84,7 @@
 </div>
 <script>
 function get_game_score(gid){
-    url = "/games/"+gid+"/score";
+    url = "/games/"+gid+"/score?nocache="+Math.random();
     $.getJSON(url, function(data){
         $("#red_score").html(data["red_score"]);
         $("#blue_score").html(data["blue_score"]);

@@ -196,7 +196,8 @@ class GameScoreView(View):
 
 
 def render_json_response(ret, status=200, headers={}):
-    resp = HttpResponse(json.dumps(ret), status=status, mimetype='application/json')
+#    resp = HttpResponse(json.dumps(ret), status=status, mimetype='application/json')
+    resp = HttpResponse(json.dumps(ret), status=status,  content_type='application/json') # i don't know why, but it just work
     for k, v in headers.items():
         resp[k] = v
     return resp
