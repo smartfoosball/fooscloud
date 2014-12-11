@@ -16,8 +16,8 @@
 	</div>
 
 	<div class="panel panel-default mt20">
-		<div class="panel-heading text-center" style="font-size:18px;">
-			赛事进行中
+		<div id="playing_title" class="panel-heading text-center" style="font-size:18px;">
+		  赛事进行中
 		</div>
 		<table class="table tbl_player">
 			<tr>
@@ -83,11 +83,16 @@
 	</div>
 </div>
 <script>
+function reload_myself(){
+    location.reload(true);
+}
 function get_game_score(gid){
     url = "/games/"+gid+"/score?nocache="+Math.random();
     $.getJSON(url, function(data){
         $("#red_score").html(data["red_score"]);
         $("#blue_score").html(data["blue_score"]);
+    }).fail(function(){
+        $("#playing_title").html("<button class='btn btn-link' style='color:black;font-size:18px;' onclick='reload_myself();'>赛事进行中</button>");
     });
 }
 setInterval('get_game_score({{game.id}})', 3000);
