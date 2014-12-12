@@ -13,34 +13,34 @@
 		<table class="table">
 			<tr>
 				<td rowspan="2" style="padding:7px;">
-				  <img class="img-circle img_size red_img_border" src="{{ waiting.red_rear.headimgurl }}" />
+				  <img class="img-circle img_size red_img_border" src="{{ playing.red_rear.headimgurl }}" />
 				  </br>
 				  <span class="text-primary" style="font-size:12px;">红队防守</span>
 				</td>
 				<td colspan="3" align="center" class="white lead" style="font-size:13px;">
 				</td>
 				<td rowspan="2">
-				  <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_rear.headimgurl }}" />
+				  <img class="img-circle img_size blue_img_border" src="{{ playing.blue_rear.headimgurl }}" />
 				  </br>
 				  <span class="text-primary" style="font-size:12px;">蓝队防守</span>
 				</td>
 			</tr>
 			<tr>
 				<td class="no-top-border">
-				  <img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" />
+				  <img class="img-circle img_size red_img_border" src="{{ playing.red_van.headimgurl }}" />
 				  </br>
 				  <span class="text-primary" style="font-size:12px;">红队进攻</span>
 				</td>
 				<td align="center" class="no-top-border white" style="font-size:9px;padding-top:26px;">VS</td>
 				<td class="no-top-border">
-				  <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_van.headimgurl }}" />
+				  <img class="img-circle img_size blue_img_border" src="{{ playing.blue_van.headimgurl }}" />
 				  </br>
 				  <span class="text-primary" style="font-size:12px;">蓝队进攻</span>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4" class="white">正在比赛</td>
-				<td style="padding:7px;"><a href="/games/{{ g.id }}/" class="white">查看 >></a></td>
+				<td style="padding:7px;"><a href="/games/{{ playing.id }}/" class="white">查看 >></a></td>
 			</tr>
 		</table>
 	</div>
@@ -91,7 +91,7 @@
 			</tr>
 			<tr>
 				<td colspan="4" class="white">等待加入</td>
-				<td style="padding:7px;"><a href="/games/{{ g.id }}/" class="white">查看 >></a></td>
+				<td style="padding:7px;"><a href="/games/{{ waiting.id }}/" class="white">查看 >></a></td>
 			</tr>
 		</table>
 	</div>
