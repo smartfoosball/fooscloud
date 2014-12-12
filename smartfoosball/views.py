@@ -17,7 +17,7 @@ from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.messages import TextMessage
 from wechatpy.replies import TextReply
-from wechatpy import parse_message
+from wechatpy import parse_message, create_reply
 
 import time
 import json
@@ -57,7 +57,13 @@ class WechatEcho(View):
             return HttpResponse(status=403)
 
         msg = parse_message(request.body)
-        reply = TextReply(content='I got it!', message=msg)
+        if msg.type == 'event':
+            if msg.event == 'subscribe' or msg.event == 'subscribe_scan':
+                # 订阅时的事件
+                reply = create_reply(u'菜鸟，来一局...', msg)
+                return HttpResponse(reply.render())
+
+        reply = TextReply(content=u'你好，有任何问题请直接回复，我们会尽快处理。', message=msg)
         return HttpResponse(reply.render())
 
 
