@@ -74,7 +74,7 @@ class BaseWeixinView(View):
         if not self.request.user.is_authenticated():
             redirect_uri = urllib.urlencode({
                     'redirect_uri':
-                        'http://' + self.request.get_host() + reverse("wechat_oauth2")})
+                        'http://' + self.request.get_host() + reverse("wechat_oauth2") + '?next=' + self.request.path})
             return redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (WX_APPID, redirect_uri))
         return super(BaseWeixinView, self).dispatch(*args, **kwargs)
 
@@ -255,4 +255,4 @@ def wechat_oauth2(request):
                 p.save()
         except Exception, e:
             return HttpResponse("authorize failed")
-    return redirect(reverse("me"))
+    return redirect(request.GET.get('next'))
