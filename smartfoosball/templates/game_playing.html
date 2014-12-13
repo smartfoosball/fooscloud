@@ -74,7 +74,7 @@
 				<span style="font-size:25px;color:blue;" id="blue_score"> {{ game.blue_score }} </span>
 			</p>
 			</br>
-			{% if user.player == game.red_rear or user.player == game.red_van or user.player == game.blue_van or user.player == game.blue_rear  %}
+			{% if user.player == game.red_rear or user.player == game.red_van or user.player == game.blue_van or user.player == game.blue_rear  %}<br />
 			<p class="text-center center-block">
 				<a href="/games/{{game.id}}/end" class="btn btn-success">结束比赛</a>
 			</p>
@@ -95,7 +95,68 @@ function get_game_score(gid){
         $("#playing_title").html("<button class='btn btn-link' style='color:black;font-size:18px;' onclick='reload_myself();'>赛事进行中</button>");
     });
 }
-setInterval('get_game_score({{game.id}})', 3000);
+// setInterval('get_game_score({{game.id}})', 3000);
+
+var ws;
+
+function send(data) {
+	if(ws.readyState == ws.OPEN){
+        ws.send(JSON.stringify(data));
+   } else {
+	    connect();
+   }
+}
+
+function login() {
+	var data = {
+		"cmd": "login_req",
+		"data": {
+			"appid": "b950a3c5b12c412d804b8bdcad55a84a",
+			"uid": "f370cb28350d43eba0bf117eaca50823",
+			"token": "c07bb7a9a4fd44519a15fa4cc62b4aa5",
+			"p0_type": "attrs_v4",
+			"heartbeat_interval": 60
+		}
+	};
+	send(data);
+}
+
+function ping() {
+	var data = {
+		"cmd": "ping"
+	};
+	send(data);
+}
+
+function connect() {
+	var m2m = "ws://m2m.gizwits.com:8080/ws/app/v1"
+	ws = new WebSocket(m2m);
+	ws.onopen = function(event) {
+		console.log("onopen");
+		login();
+	};
+	ws.onclose = function(event) {
+		console.log("onclose");
+	}
+	ws.onmessage = function(event) {
+		console.log("onmessage");
+		var data = JSON.parse(event.data);
+		console.log(data);
+		if (data["cmd"] == "s2c_noti") {
+			var red = data["data"]["attrs"]["红方进球数"];
+			var blue = data["data"]["attrs"]["蓝方进球数"];
+			$("#red_score").text(red);
+        	$("#blue_score").text(blue);
+		}
+	}
+	ws.onerror = function(event) {
+		console.log("onerror");
+	}
+};
+
+connect();
+
+setInterval(ping, 10000);
 </script>
 {% endblock %}
 
