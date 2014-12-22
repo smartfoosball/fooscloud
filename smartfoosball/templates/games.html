@@ -19,7 +19,7 @@
 				</td>
 				<td colspan="3" align="center" class="white lead" style="font-size:13px;">
 				</td>
-				<td rowspan="2">
+				<td rowspan="2" align="right">
 				  <img class="img-circle img_size blue_img_border" src="{{ playing.blue_rear.headimgurl }}" />
 				  </br>
 				  <span style="font-size:12px;">蓝队防守</span>
@@ -32,7 +32,7 @@
 				  <span style="font-size:12px;">红队进攻</span>
 				</td>
 				<td align="center" class="no-top-border white" style="font-size:9px;padding-top:26px;">VS</td>
-				<td class="no-top-border">
+				<td class="no-top-border" align="right">
 				  <img class="img-circle img_size blue_img_border" src="{{ playing.blue_van.headimgurl }}" />
 				  </br>
 				  <span style="font-size:12px;">蓝队进攻</span>
@@ -40,7 +40,7 @@
 			</tr>
 			<tr>
 				<td colspan="4" class="white">正在比赛</td>
-				<td style="padding:7px;"><a href="/games/{{ playing.id }}/" class="white">查看 >></a></td>
+				<td style="padding:7px;" align="right"><a href="/games/{{ playing.id }}/" class="white">查看 >></a></td>
 			</tr>
 		</table>
 	</div>
@@ -61,7 +61,7 @@
 				  <!--<span class="red">{{ g.red_score }}</span> : <span class="blue">{{ g.blue_score }}</span>-->
 				  直接点击抢位置
 				</td>
-				<td rowspan="2">
+				<td rowspan="2" align="right">
 				  {% if waiting.blue_rear %} <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_rear.headimgurl }}" /> {% else %}
 				<button type="button" class="btn-link noborder" onclick="join_game('{{waiting.id}}', 'blue_rear')">
 					<img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
@@ -80,7 +80,7 @@
 				  <span style="font-size:12px;">红队进攻</span>
 				</td>
 				<td align="center" class="no-top-border white" style="font-size:9px;padding-top:26px;">VS</td>
-				<td class="no-top-border">
+				<td class="no-top-border" align="right">
 				  {% if waiting.blue_van %} <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_van.headimgurl }}" /> {% else %}
 				<button type="button" class="btn-link noborder" onclick="join_game('{{waiting.id}}', 'blue_van')">
 					<img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
@@ -91,7 +91,7 @@
 			</tr>
 			<tr>
 				<td colspan="4" class="white">等待加入</td>
-				<td style="padding:7px;"><a href="/games/{{ waiting.id }}/" class="white">查看 >></a></td>
+				<td style="padding:7px;" align="right"><a href="/games/{{ waiting.id }}/" class="white">查看 >></a></td>
 			</tr>
 		</table>
 	</div>

@@ -18,7 +18,7 @@
 				  <span style="font-size:12px;">红队防守</span>
 				</td>
 				<td colspan="3" align="center" class="white lead"><span class="red">{{ g.red_score }}</span> : <span class="blue">{{ g.blue_score }}</span></td>
-				<td rowspan="2">
+				<td rowspan="2" align="right">
 				  <img class="img-circle img_size blue_img_border" src="{{ g.blue_rear.headimgurl }}" />
 				  </br>
 				  <span style="font-size:12px;">蓝队防守</span>
@@ -31,7 +31,7 @@
 				  <span style="font-size:12px;">红队进攻</span>
 				</td>
 				<td align="center" class="no-top-border white">VS</td>
-				<td class="no-top-border">
+				<td class="no-top-border" align="right">
 				  <img class="img-circle img_size blue_img_border" src="{{ g.blue_van.headimgurl }}" />
 				  </br>
 				  <span style="font-size:12px;">蓝队进攻</span>
@@ -39,7 +39,7 @@
 			</tr>
 			<tr>
 				<td colspan="4" class="white">{{ g.updated_at }}</td>
-				<td style="padding:7px;"><a href="/games/{{ g.id }}/" class="white">查看 >></a></td>
+				<td style="padding:7px;" align="right"><a href="/games/{{ g.id }}/" class="white">查看 >></a></td>
 			</tr>
 		</table>
 	</div>
