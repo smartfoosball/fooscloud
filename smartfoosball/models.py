@@ -14,6 +14,17 @@ class Enumm(Enum):
         return tuple(choices)
 
 
+class FoosBall(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    scene_id = models.IntegerField()
+    mac = models.CharField(max_length=12, unique=True)
+    did = models.CharField(max_length=32, blank=True, null=True)
+    passcode = models.CharField(max_length=32, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.mac
+
 class Player(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -25,6 +36,7 @@ class Player(models.Model):
     nickname = models.CharField(max_length=128)
     headimgurl = models.URLField()
     user = models.OneToOneField(User)
+    foosball = models.ManyToManyField(FoosBall)
 
     def __unicode__(self):
         return self.nickname
@@ -81,6 +93,7 @@ class Game(models.Model):
     red_score = models.IntegerField(default=0)
     blue_score = models.IntegerField(default=0)
     status = models.IntegerField(choices=Status.choices(), default=Status.waiting.value)
+    foosball = models.ForeignKey(FoosBall, blank=True, null=True)
 
     def __unicode__(self):
         return u"%s-%s vs %s-%s" % (self.red_van, self.red_rear, 
@@ -113,12 +126,4 @@ class GWUser(models.Model):
     uid = models.CharField(max_length=32)
     token = models.CharField(max_length=32)
     expire_at = models.IntegerField()
-    
 
-class FoosBall(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)    
-    updated_at = models.DateTimeField(auto_now=True)
-    scene_id = models.IntegerField()
-    mac = models.CharField(max_length=12, unique=True)
-    did = models.CharField(max_length=32, blank=True, null=True)
-    passcode = models.CharField(max_length=32, blank=True, null=True)

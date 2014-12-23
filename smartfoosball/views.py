@@ -71,7 +71,11 @@ class WechatEcho(View):
                         fb.passcode = fb.passcode
                         fb.save()
                         # todo: bind device
+                    p = Player.objects.get(openid=msg.source)
+                    p.foosball.add(fb)
                 except FoosBall.DoesNotExist:
+                    pass
+                except Player.DoesNotExist:
                     pass
                 except Exception:
                     pass
