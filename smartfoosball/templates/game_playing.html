@@ -69,6 +69,7 @@
 		</table>
 		<div class="panel-footer">
 		  <form method="POST" action="/games/{{game.id}}/end">
+		    {% csrf_token %}
 			<p class="text-center center-block" style="background-image:url(/static/images/score_board_bg.png);background-repeat:no-repeat; width:150px; height:37px;">
 			  <span style="font-size:25px;color:red;" id="red_score"> {{ game.red_score }} </span>
 			  <input type="hidden" id="red_score_hide" name="red_score"  value="{{game.red_score}}" />
@@ -88,6 +89,11 @@
 	</div>
 </div>
 <script>
+  function update_score(element_id, val){
+  $(element_id).text(val);
+  var hide_id = element_id + "_hide";
+  $(hide_id).val(val);
+  }
 function reload_myself(){
     location.reload(true);
 }
@@ -152,10 +158,8 @@ function connect() {
 		if (data["cmd"] == "s2c_noti" && data["data"]["did"] == did) {
 			var red = data["data"]["attrs"]["red_goals"];
 			var blue = data["data"]["attrs"]["blue_goals"];
-			$("#red_score").text(red);
-			$("#red_score_hide").val(red);
-        	$("#blue_score").text(blue);
-        	$("#blue_score_hide").val(blue);
+                        update_score("#red_score", red);
+                        update_score("#blue_score", blue);
 		}
 	}
 	ws.onerror = function(event) {
