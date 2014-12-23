@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.views.decorators.csrf import csrf_exempt
+from django.conf.urls.static import static
 
 from django.contrib import admin
 admin.autodiscover()
@@ -26,5 +28,6 @@ urlpatterns = patterns('',
     url(r'^games/(?P<gid>\d+)/score$', views.GameScoreView.as_view(), name='game_score'),
     url(r'^players$', views.PlayerView.as_view(), name="players"),
     url(r'^me$', views.MeView.as_view(), name="me"),
-    url(r'^wechat/oauth2$', views.wechat_oauth2, name="wechat_oauth2")
-)
+    url(r'^wechat/oauth2$', views.wechat_oauth2, name="wechat_oauth2"),
+    url(r'^qrcode$', views.qrcode, name="qrcode")
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -114,3 +114,11 @@ class GWUser(models.Model):
     token = models.CharField(max_length=32)
     expire_at = models.IntegerField()
     
+
+class FoosBall(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)    
+    updated_at = models.DateTimeField(auto_now=True)
+    scene_id = models.IntegerField()
+    mac = models.CharField(max_length=12, unique=True)
+    did = models.CharField(max_length=32, blank=True, null=True)
+    passcode = models.CharField(max_length=32, blank=True, null=True)

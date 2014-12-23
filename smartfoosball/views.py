@@ -14,6 +14,7 @@ from helper import *
 from foosball_config import *
 from smartfoosball.settings import *
 from smartfoosball.models import *
+from smartfoosball.utils import get_qrcode
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.messages import TextMessage
@@ -256,3 +257,10 @@ def wechat_oauth2(request):
         except Exception, e:
             return HttpResponse("authorize failed")
     return redirect(request.GET.get('next'))
+
+
+def qrcode(request):
+    mac = request.GET.get('mac')
+    fb = get_object_or_404(FoosBall, mac__iexact=mac)
+    qrcode = get_qrcode(fb.scene_id)
+    
