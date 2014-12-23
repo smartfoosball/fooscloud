@@ -263,4 +263,4 @@ def qrcode(request):
     mac = request.GET.get('mac')
     fb = get_object_or_404(FoosBall, mac__iexact=mac)
     qrcode = get_qrcode(fb.scene_id)
-    
+    return HttpResponse('<img src="%s%s" />' % (settings.MEDIA_URL, qrcode))
