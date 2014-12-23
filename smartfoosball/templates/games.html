@@ -8,93 +8,99 @@
 
 {%block body%}
 <div class="container-fluid" style="margin-top:20px;">
-	{% if playing %}
-	<div class="panel games_bg">
-		<table class="table">
-			<tr>
-				<td rowspan="2" style="padding:7px;">
-				  <img class="img-circle img_size red_img_border" src="{{ playing.red_rear.headimgurl }}" />
-				  </br>
-				  <span style="font-size:12px;">红队防守</span>
-				</td>
-				<td colspan="3" align="center" class="white lead" style="font-size:13px;">
-				</td>
-				<td rowspan="2" align="right">
-				  <img class="img-circle img_size blue_img_border" src="{{ playing.blue_rear.headimgurl }}" />
-				  </br>
-				  <span style="font-size:12px;">蓝队防守</span>
-				</td>
-			</tr>
-			<tr>
-				<td class="no-top-border">
-				  <img class="img-circle img_size red_img_border" src="{{ playing.red_van.headimgurl }}" />
-				  </br>
-				  <span style="font-size:12px;">红队进攻</span>
-				</td>
-				<td align="center" class="no-top-border white" style="font-size:9px;padding-top:26px;">VS</td>
-				<td class="no-top-border" align="right">
-				  <img class="img-circle img_size blue_img_border" src="{{ playing.blue_van.headimgurl }}" />
-				  </br>
-				  <span style="font-size:12px;">蓝队进攻</span>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4" class="white">正在比赛</td>
-				<td style="padding:7px;" align="right"><a href="/games/{{ playing.id }}/" class="white">查看 >></a></td>
-			</tr>
-		</table>
-	</div>
-	
-	{%endif%}
-	<div class="panel games_bg">
-		<table class="table">
-			<tr>
-				<td rowspan="2" style="padding:7px;">
-				  {% if waiting.red_rear %} <img class="img-circle img_size red_img_border" src="{{ waiting.red_rear.headimgurl }}" /> {% else %}
-				<button type="button" class="btn-link noborder" onclick="join_game('{{waiting.id}}', 'red_rear')">
-					<img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
-				</button> {% endif %} 
-				  </br>
-				  <span style="font-size:12px;">红队防守</span>
-				</td>
-				<td colspan="3" align="center" class="white lead" style="font-size:13px;">
-				  <!--<span class="red">{{ g.red_score }}</span> : <span class="blue">{{ g.blue_score }}</span>-->
-				  直接点击抢位置
-				</td>
-				<td rowspan="2" align="right">
-				  {% if waiting.blue_rear %} <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_rear.headimgurl }}" /> {% else %}
-				<button type="button" class="btn-link noborder" onclick="join_game('{{waiting.id}}', 'blue_rear')">
-					<img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
-				</button> {% endif %}
-				  </br>
-				  <span style="font-size:12px;">蓝队防守</span>
-				</td>
-			</tr>
-			<tr>
-				<td class="no-top-border">
-				  {% if waiting.red_van %} <img class="img-circle img_size red_img_border" src="{{ waiting.red_van.headimgurl }}" /> {% else %}
-				  <button type="button" class="btn-link noborder" onclick="join_game('{{waiting.id}}', 'red_van')">
-				    <img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
-				  </button> {% endif %} 
-				  </br>
-				  <span style="font-size:12px;">红队进攻</span>
-				</td>
-				<td align="center" class="no-top-border white" style="font-size:9px;padding-top:26px;">VS</td>
-				<td class="no-top-border" align="right">
-				  {% if waiting.blue_van %} <img class="img-circle img_size blue_img_border" src="{{ waiting.blue_van.headimgurl }}" /> {% else %}
-				<button type="button" class="btn-link noborder" onclick="join_game('{{waiting.id}}', 'blue_van')">
-					<img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
-				</button> {% endif %} 
-				  </br>
-				  <span style="font-size:12px;">蓝队进攻</span>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4" class="white">等待加入</td>
-				<td style="padding:7px;" align="right"><a href="/games/{{ waiting.id }}/" class="white">查看 >></a></td>
-			</tr>
-		</table>
-	</div>
+    {% for fb in user.player.foosball.all %}
+    {% with fb.get_game as game %}
+    {% if game.status == 2 %}
+    <div class="panel games_bg">
+        <table class="table">
+            <tr>
+                <td rowspan="2" style="padding:7px;">
+                  <img class="img-circle img_size red_img_border" src="{{ game.red_rear.headimgurl }}" />
+                  </br>
+                  <span style="font-size:12px;">红队防守</span>
+                </td>
+                <td colspan="3" align="center" class="white lead" style="font-size:13px;">
+                </td>
+                <td rowspan="2" align="right">
+                  <img class="img-circle img_size blue_img_border" src="{{ game.blue_rear.headimgurl }}" />
+                  </br>
+                  <span style="font-size:12px;">蓝队防守</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="no-top-border">
+                  <img class="img-circle img_size red_img_border" src="{{ game.red_van.headimgurl }}" />
+                  </br>
+                  <span style="font-size:12px;">红队进攻</span>
+                </td>
+                <td align="center" class="no-top-border white" style="font-size:9px;padding-top:26px;">VS</td>
+                <td class="no-top-border" align="right">
+                  <img class="img-circle img_size blue_img_border" src="{{ game.blue_van.headimgurl }}" />
+                  </br>
+                  <span style="font-size:12px;">蓝队进攻</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="white">正在比赛</td>
+                <td style="padding:7px;" align="right"><a href="/games/{{ game.id }}/" class="white">查看 >></a></td>
+            </tr>
+        </table>
+    </div>
+    {%endif%}
+    
+    {% if game.status == 1 %}
+    <div class="panel games_bg">
+        <table class="table">
+            <tr>
+                <td rowspan="2" style="padding:7px;">
+                  {% if game.red_rear %} <img class="img-circle img_size red_img_border" src="{{ game.red_rear.headimgurl }}" /> {% else %}
+                <button type="button" class="btn-link noborder" onclick="join_game('{{game.id}}', 'red_rear')">
+                    <img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
+                </button> {% endif %} 
+                  </br>
+                  <span style="font-size:12px;">红队防守</span>
+                </td>
+                <td colspan="3" align="center" class="white lead" style="font-size:13px;">
+                  <!--<span class="red">{{ g.red_score }}</span> : <span class="blue">{{ g.blue_score }}</span>-->
+                  直接点击抢位置
+                </td>
+                <td rowspan="2" align="right">
+                  {% if game.blue_rear %} <img class="img-circle img_size blue_img_border" src="{{ game.blue_rear.headimgurl }}" /> {% else %}
+                <button type="button" class="btn-link noborder" onclick="join_game('{{game.id}}', 'blue_rear')">
+                    <img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
+                </button> {% endif %}
+                  </br>
+                  <span style="font-size:12px;">蓝队防守</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="no-top-border">
+                  {% if game.red_van %} <img class="img-circle img_size red_img_border" src="{{ game.red_van.headimgurl }}" /> {% else %}
+                  <button type="button" class="btn-link noborder" onclick="join_game('{{game.id}}', 'red_van')">
+                    <img class="img-circle img_size red_img_border" src="/static/images/blank_plus.png" />
+                  </button> {% endif %} 
+                  </br>
+                  <span style="font-size:12px;">红队进攻</span>
+                </td>
+                <td align="center" class="no-top-border white" style="font-size:9px;padding-top:26px;">VS</td>
+                <td class="no-top-border" align="right">
+                  {% if game.blue_van %} <img class="img-circle img_size blue_img_border" src="{{ game.blue_van.headimgurl }}" /> {% else %}
+                <button type="button" class="btn-link noborder" onclick="join_game('{{game.id}}', 'blue_van')">
+                    <img class="img-circle img_size blue_img_border" src="/static/images/blank_plus.png" />
+                </button> {% endif %} 
+                  </br>
+                  <span style="font-size:12px;">蓝队进攻</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="white">等待加入</td>
+                <td style="padding:7px;" align="right"><a href="/games/{{ game.id }}/" class="white">查看 >></a></td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% endfor %}
 
 	<div class="row">
 		<div class="text-center">

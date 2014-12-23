@@ -25,6 +25,19 @@ class FoosBall(models.Model):
     def __unicode__(self):
         return self.mac
 
+    def get_game(self):
+        playing = self.game_set.filter(status=Game.Status.playing.value).first()
+        if playing:
+            return playing
+
+        waiting = self.game_set.filter(status=Game.Status.waiting.value).first()
+        if waiting:
+            return waiting
+
+        game = Game(foosball=self)
+        game.save()
+        return game
+
 class Player(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

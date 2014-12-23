@@ -100,12 +100,7 @@ class BaseWeixinView(View):
 class GameView(BaseWeixinView):
 
     def get(self, request):
-        playing = Game.objects.filter(status=Game.Status.playing.value).first()
-        waiting = Game.objects.filter(status=Game.Status.waiting.value).first()
-        if not waiting:
-            waiting = Game()
-            waiting.save()
-        ctx = {'playing': playing, 'waiting': waiting}
+        ctx = RequestContext(request, {})
         return render_to_response('games.html', ctx)
 
 
