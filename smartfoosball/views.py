@@ -121,8 +121,10 @@ class GameDetailView(BaseWeixinView):
         def request_gw_user(appid, user, pwd):
             _id = 1
             _gw_user = GWUser.objects.get(id=_id)  # must exists. and id = 1
-            to_timestamp = lambda dt: time.mktime(dt.timetuple())
-            if _gw_user.expire_at < to_timestamp(datetime.now()):
+            two_hour = 3600 * 2
+            token_expire_ts = lambda dt, offset: time.mktime(
+                dt.timetuple()) + offset
+            if _gw_user.expire_at < token_expire_ts(datetime.now(), two_hour):
                 # token expire
                 resp = helper.get_gservice_client(
                     appid).login_by_username(user, pwd).json()
