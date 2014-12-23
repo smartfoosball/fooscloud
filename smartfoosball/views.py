@@ -11,7 +11,6 @@ from datetime import datetime
 from django.conf import settings
 from models import *
 from helper import *
-from foosball_config import *
 from smartfoosball.settings import *
 from smartfoosball.models import *
 from smartfoosball.utils import get_qrcode
@@ -135,7 +134,7 @@ class GameDetailView(BaseWeixinView):
             settings.GW_APPID, settings.GW_USER, settings.GW_PWD)
         gw_obj = {'appid': settings.GW_APPID,
                   'uid': gw_user['uid'], 'token': gw_user['token']}
-        ctx = {'game': game, 'gw_obj': gw_obj}
+        ctx = {'game': game, 'gw_obj': gw_obj, 'foosball_obj':game.foosball}
         ctx = RequestContext(request, ctx)
         return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 

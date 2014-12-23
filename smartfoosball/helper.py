@@ -2,7 +2,8 @@
 from models import GWUser
 from gservice.client import GServiceClient
 from django.conf import settings
-
+from datetime import datetime
+import time
 
 def request_gw_user(appid, user, pwd):
     _id = 1
