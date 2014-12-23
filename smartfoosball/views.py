@@ -35,29 +35,23 @@ class Index(TemplateView):
 
 class WechatEcho(View):
 
-    def get(self, request):
-        signature = request.GET.get('signature', '')
-        timestamp = request.GET.get('timestamp', '')
-        nonce = request.GET.get('nonce', '')
-        echo_str = request.GET.get('echostr', '')
+    def dispatch(self, *args, **kwargs):
+        signature = self.request.GET.get('signature', '')
+        timestamp = self.request.GET.get('timestamp', '')
+        nonce = self.request.GET.get('nonce', '')
 
         try:
-            check_signature(TOKEN, signature, timestamp, nonce)
+            check_signature(settings.TOKEN, signature, timestamp, nonce)
         except InvalidSignatureException:
             return HttpResponse(status=403)
+
+        return super(WechatEcho, self).dispatch(*args, **kwargs)
+
+    def get(self, request):
+        echo_str = request.GET.get('echostr', '')
         return HttpResponse(echo_str)
 
     def post(self, request):
-        signature = request.GET.get('signature', '')
-        timestamp = request.GET.get('timestamp', '')
-        nonce = request.GET.get('nonce', '')
-        echo_str = request.GET.get('echostr', '')
-
-        try:
-            check_signature(TOKEN, signature, timestamp, nonce)
-        except InvalidSignatureException:
-            return HttpResponse(status=403)
-
         msg = parse_message(request.body)
         if msg.type == 'event':
             if msg.event == 'subscribe' or msg.event == 'subscribe_scan':
