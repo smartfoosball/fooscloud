@@ -139,7 +139,7 @@ class GameDetailView(BaseWeixinView):
                 dt.timetuple()) + offset
             if _gw_user.expire_at < token_expire_ts(datetime.now(), two_hour):
                 # token expire
-                resp = helper.get_gservice_client(
+                resp = get_gservice_client(
                     appid).login_by_username(user, pwd).json()
                 _gw_user.uid = resp['uid']
                 _gw_user.token = resp['token']
