@@ -72,7 +72,8 @@ class WechatEcho(View):
                         fb.did = did
                         fb.passcode = fb.passcode
                         fb.save()
-                        # todo: bind device
+                        get_gservice_client2(settings.GW_APPID,settings.GW_USER,settings.GW_PWD).bind_device([did, passcode])
+
                     p = Player.objects.get(openid=msg.source)
                     p.foosball.add(fb)
                 except FoosBall.DoesNotExist:
@@ -130,23 +131,6 @@ class GameDetailView(BaseWeixinView):
 
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
-
-        def request_gw_user(appid, user, pwd):
-            _id = 1
-            _gw_user = GWUser.objects.get(id=_id)  # must exists. and id = 1
-            two_hour = 3600 * 2
-            token_expire_ts = lambda dt, offset: time.mktime(
-                dt.timetuple()) + offset
-            if _gw_user.expire_at < token_expire_ts(datetime.now(), two_hour):
-                # token expire
-                resp = get_gservice_client(
-                    appid).login_by_username(user, pwd).json()
-                _gw_user.uid = resp['uid']
-                _gw_user.token = resp['token']
-                _gw_user.expire_at = resp['expire_at']
-                _gw_user.save()
-            return {'uid': _gw_user.uid, 'token': _gw_user.token, 'expire_at': _gw_user.expire_at}
-
         gw_user = request_gw_user(
             settings.GW_APPID, settings.GW_USER, settings.GW_PWD)
         gw_obj = {'appid': settings.GW_APPID,
