@@ -68,17 +68,22 @@
 
 		</table>
 		<div class="panel-footer">
+		  <form method="POST" action="/games/{{game.id}}/end">
 			<p class="text-center center-block" style="background-image:url(/static/images/score_board_bg.png);background-repeat:no-repeat; width:150px; height:37px;">
-				<span style="font-size:25px;color:red;" id="red_score"> {{ game.red_score }} </span>
-				<span style="font-size:25px;"> : </span>
-				<span style="font-size:25px;color:blue;" id="blue_score"> {{ game.blue_score }} </span>
+			  <span style="font-size:25px;color:red;" id="red_score"> {{ game.red_score }} </span>
+			  <input type="hidden" id="red_score_hide" name="red_score"  value="{{game.red_score}}" />
+			  <span style="font-size:25px;"> : </span>
+			  <span style="font-size:25px;color:blue;" id="blue_score"> {{ game.blue_score }} </span>
+			  <input type="hidden" id="blue_score_hide" name="blue_score" value="{{game.blue_score}}" />
 			</p>
 			</br>
 			{% if user.player == game.red_rear or user.player == game.red_van or user.player == game.blue_van or user.player == game.blue_rear  %}<br />
 			<p class="text-center center-block">
-				<a href="/games/{{game.id}}/end" class="btn btn-success">结束比赛</a>
+			  <!-- <a href="/games/{{game.id}}/end" class="btn btn-success">结束比赛</a> -->
+			  <input type="submit" class="btn btn-success" value="结束比赛" />
 			</p>
 			{% endif %}
+		  </form>
 		</div>
 	</div>
 </div>
@@ -113,9 +118,9 @@ function login() {
 	var data = {
 		"cmd": "login_req",
 		"data": {
-			"appid": "b950a3c5b12c412d804b8bdcad55a84a",
-			"uid": "bdaa2e455b7748499114284f37fe25cc",
-			"token": "601107f992cb4489a798530194bb81c6",
+			"appid": "{{gw_obj.appid}}",
+			"uid": "{{gw_obj.uid}}",
+			"token": "{{gw_obj.token}}",
 			"p0_type": "attrs_v4",
 			"heartbeat_interval": 60
 		}
@@ -148,7 +153,9 @@ function connect() {
 			var red = data["data"]["attrs"]["red_goals"];
 			var blue = data["data"]["attrs"]["blue_goals"];
 			$("#red_score").text(red);
+			$("#red_score_hide").val(red);
         	$("#blue_score").text(blue);
+        	$("#blue_score_hide").val(blue);
 		}
 	}
 	ws.onerror = function(event) {

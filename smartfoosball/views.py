@@ -115,7 +115,22 @@ class GameDetailView(BaseWeixinView):
 
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
-        ctx = {'game': game}
+        def request_gw_user(appid, user, pwd):
+            _id = 1
+            _gw_user = GWUser.objects.get(id=_id)# must exists. and id = 1
+            to_timestamp = lambda dt: time.mktime(dt.timetuple())
+            if _gw_user.expire_at < to_timestamp(datetime.now()):
+                # token expire
+                resp = helper.get_gservice_client(appid).login_by_username(user,pwd).json()
+                _gw_user.uid = resp['uid']
+                _gw_user.token = resp['token']
+                _gw_user.expire_at = resp['expire_at']
+                _gw_user.save()
+            return {'uid':_gw_user.uid, 'token':_gw_user.token, 'expire_at':_gw_user.expire_at }
+        
+        gw_user = request_gw_user(settings.GW_APPID,settings.GW_USER, settings.GW_PWD)
+        gw_obj = {'appid': settings.GW_APPID, 'uid':gw_user['uid'], 'token':gw_user['token']}
+        ctx = {'game': game, 'gw_obj': gw_obj}
         ctx = RequestContext(request, ctx)
         return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 
@@ -148,6 +163,19 @@ class GameEndView(BaseWeixinView):
             game.save()
 
         return redirect(reverse('game_detail', kwargs={'gid': game.id}))
+
+    def post(self, request, gid):
+        game = get_object_or_404(Game, id=gid)
+        ctx = {'game': game}
+        if (game.status == Game.Status.playing.value) and (
+            request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
+            game.red_score = request.POST.get('red_score', 0)
+            game.blue_score = request.POST.get('blue_score', 0)
+            game.status = Game.Status.end.value
+            game.save()
+
+        return redirect(reverse('game_detail', kwargs={'gid': game.id}))
+        
 
 
 class GameHistoryView(BaseWeixinView):
