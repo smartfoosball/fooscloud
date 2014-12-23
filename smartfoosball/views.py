@@ -20,6 +20,7 @@ from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.messages import TextMessage
 from wechatpy.replies import TextReply
 from wechatpy import parse_message, create_reply
+from gservice.client import GServiceClient
 
 import time
 import json
@@ -54,8 +55,26 @@ class WechatEcho(View):
     def post(self, request):
         msg = parse_message(request.body)
         if msg.type == 'event':
-            if msg.event == 'subscribe' or msg.event == 'subscribe_scan':
+            if msg.event == 'subscribe':
                 # 订阅时的事件
+                reply = create_reply(u'菜鸟，来一局...', msg)
+                return HttpResponse(reply.render())
+            elif msg.event in ['scan', 'subscribe_scan']:
+                try:
+                    fb = FoosBall.objects.get(scene_id=msg.scene_id)
+                    gsc = GServiceClient(settings.GW_APPID)
+                    resp = gsc.query_device(
+                        settings.PRODUCT_KEY, fb.mac).json()
+                    did = resp.get('did')
+                    if did and did != fb.did:
+                        fb.did = did
+                        fb.passcode = fb.passcode
+                        fb.save()
+                        # todo: bind device
+                except FoosBall.DoesNotExist:
+                    pass
+                except Exception:
+                    pass
                 reply = create_reply(u'菜鸟，来一局...', msg)
                 return HttpResponse(reply.render())
 
