@@ -69,9 +69,9 @@ class WechatEcho(View):
                     did = resp.get('did')
                     if did and did != fb.did:
                         fb.did = did
-                        fb.passcode = fb.passcode
+                        fb.passcode = resp.get('passcode')
                         fb.save()
-                        get_gservice_client2(settings.GW_APPID,settings.GW_USER,settings.GW_PWD).bind_device([did, passcode])
+                        get_gservice_client2(settings.GW_APPID,settings.GW_USER,settings.GW_PWD).bind_device([fb.did, fb.passcode])
 
                     p = Player.objects.get(openid=msg.source)
                     p.foosball.add(fb)
