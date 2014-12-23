@@ -99,6 +99,8 @@ function get_game_score(gid){
 
 var ws;
 
+var did = "XCaag2WmvGqVUzsYWkYc9m";
+
 function send(data) {
 	if(ws.readyState == ws.OPEN){
         ws.send(JSON.stringify(data));
@@ -112,8 +114,8 @@ function login() {
 		"cmd": "login_req",
 		"data": {
 			"appid": "b950a3c5b12c412d804b8bdcad55a84a",
-			"uid": "f370cb28350d43eba0bf117eaca50823",
-			"token": "c07bb7a9a4fd44519a15fa4cc62b4aa5",
+			"uid": "bdaa2e455b7748499114284f37fe25cc",
+			"token": "601107f992cb4489a798530194bb81c6",
 			"p0_type": "attrs_v4",
 			"heartbeat_interval": 60
 		}
@@ -142,9 +144,9 @@ function connect() {
 		console.log("onmessage");
 		var data = JSON.parse(event.data);
 		console.log(data);
-		if (data["cmd"] == "s2c_noti") {
-			var red = data["data"]["attrs"]["红方进球数"];
-			var blue = data["data"]["attrs"]["蓝方进球数"];
+		if (data["cmd"] == "s2c_noti" && data["data"]["did"] == did) {
+			var red = data["data"]["attrs"]["red_goals"];
+			var blue = data["data"]["attrs"]["blue_goals"];
 			$("#red_score").text(red);
         	$("#blue_score").text(blue);
 		}

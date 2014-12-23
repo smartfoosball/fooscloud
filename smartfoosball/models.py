@@ -106,3 +106,11 @@ class Goal(models.Model):
     position = models.IntegerField(choices=Position.choices())
     team = models.IntegerField(choices=Team.choices())
 
+
+class GWUser(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    uid = models.CharField(max_length=32)
+    token = models.CharField(max_length=32)
+    expire_at = models.IntegerField()
+    

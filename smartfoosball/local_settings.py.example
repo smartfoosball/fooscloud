@@ -62,3 +62,5 @@ WX_SECRET = ''
 
 PRODUCT_KEY = ''
 GW_APPID = ''
+GW_USER = 'foosball-dev'
+GW_PWD = 'dev'
