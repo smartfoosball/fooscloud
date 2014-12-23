@@ -1,8 +1,8 @@
-#coding:utf-8
+# coding:utf-8
 from django import forms
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
-from django.views.generic import View,TemplateView
+from django.views.generic import View, TemplateView
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
@@ -28,11 +28,13 @@ import uuid
 import urllib
 import requests
 
+
 class Index(TemplateView):
     template_name = 'index.html'
+
     def get(self, request):
         return super(Index, self).get(request)
-        
+
 
 class WechatEcho(View):
 
@@ -91,8 +93,8 @@ class BaseWeixinView(View):
     def dispatch(self, *args, **kwargs):
         if not self.request.user.is_authenticated():
             redirect_uri = urllib.urlencode({
-                    'redirect_uri':
-                        'http://' + self.request.get_host() + reverse("wechat_oauth2") + '?next=' + self.request.path})
+                'redirect_uri':
+                'http://' + self.request.get_host() + reverse("wechat_oauth2") + '?next=' + self.request.path})
             return redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (WX_APPID, redirect_uri))
         return super(BaseWeixinView, self).dispatch(*args, **kwargs)
 
@@ -128,7 +130,28 @@ class GameDetailView(BaseWeixinView):
 
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
-        ctx = {'game': game}
+
+        def request_gw_user(appid, user, pwd):
+            _id = 1
+            _gw_user = GWUser.objects.get(id=_id)  # must exists. and id = 1
+            two_hour = 3600 * 2
+            token_expire_ts = lambda dt, offset: time.mktime(
+                dt.timetuple()) + offset
+            if _gw_user.expire_at < token_expire_ts(datetime.now(), two_hour):
+                # token expire
+                resp = helper.get_gservice_client(
+                    appid).login_by_username(user, pwd).json()
+                _gw_user.uid = resp['uid']
+                _gw_user.token = resp['token']
+                _gw_user.expire_at = resp['expire_at']
+                _gw_user.save()
+            return {'uid': _gw_user.uid, 'token': _gw_user.token, 'expire_at': _gw_user.expire_at}
+
+        gw_user = request_gw_user(
+            settings.GW_APPID, settings.GW_USER, settings.GW_PWD)
+        gw_obj = {'appid': settings.GW_APPID,
+                  'uid': gw_user['uid'], 'token': gw_user['token']}
+        ctx = {'game': game, 'gw_obj': gw_obj}
         ctx = RequestContext(request, ctx)
         return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 
@@ -143,7 +166,7 @@ class GameStartView(BaseWeixinView):
                 return redirect(reverse('game_detail', kwargs={'gid': game.id}))
         playing = Game.objects.filter(status=Game.Status.playing.value).first()
         if (not playing) and (game.status == Game.Status.waiting.value) and (
-            request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
+                request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
             game.status = Game.Status.playing.value
             game.save()
 
@@ -151,12 +174,24 @@ class GameStartView(BaseWeixinView):
 
 
 class GameEndView(BaseWeixinView):
-    
+
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
         ctx = {'game': game}
         if (game.status == Game.Status.playing.value) and (
-            request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
+                request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
+            game.status = Game.Status.end.value
+            game.save()
+
+        return redirect(reverse('game_detail', kwargs={'gid': game.id}))
+
+    def post(self, request, gid):
+        game = get_object_or_404(Game, id=gid)
+        ctx = {'game': game}
+        if (game.status == Game.Status.playing.value) and (
+                request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
+            game.red_score = request.POST.get('red_score', 0)
+            game.blue_score = request.POST.get('blue_score', 0)
             game.status = Game.Status.end.value
             game.save()
 
@@ -164,13 +199,14 @@ class GameEndView(BaseWeixinView):
 
 
 class GameHistoryView(BaseWeixinView):
-    
+
     def get(self, request):
         query = Q(status=Game.Status.end.value)
         player = request.GET.get('player')
         if player:
             player = int(player)
-            query &= (Q(red_van__id=player) | Q(red_rear__id=player) | Q(blue_van__id=player) | Q(blue_rear__id=player))
+            query &= (Q(red_van__id=player) | Q(red_rear__id=player) | Q(
+                blue_van__id=player) | Q(blue_rear__id=player))
         games = Game.objects.filter(query).order_by('-updated_at')[:10]
         return render_to_response('game_history.html', {'games': games})
 
@@ -200,8 +236,8 @@ class MeView(BaseWeixinView):
         performances = sorted(performances, key=lambda x: x[2])
         performances = sorted(performances, key=lambda x: x[1], reverse=True)
         ctx = RequestContext(
-            request, 
-            {"win": win, 
+            request,
+            {"win": win,
              "lost": lost,
              "tot_players": len(performances),
              "rank": performances.index((me, win, lost)) + 1,
@@ -210,14 +246,17 @@ class MeView(BaseWeixinView):
 
 
 class GameScoreView(View):
+
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
-        return render_json_response({"red_score":game.red_score, "blue_score":game.blue_score})
+        return render_json_response({"red_score": game.red_score, "blue_score": game.blue_score})
 
 
 def render_json_response(ret, status=200, headers={}):
-#    resp = HttpResponse(json.dumps(ret), status=status, mimetype='application/json')
-    resp = HttpResponse(json.dumps(ret), status=status,  content_type='application/json') # i don't know why, but it just work
+    #    resp = HttpResponse(json.dumps(ret), status=status, mimetype='application/json')
+    # i don't know why, but it just work
+    resp = HttpResponse(
+        json.dumps(ret), status=status,  content_type='application/json')
     for k, v in headers.items():
         resp[k] = v
     return resp
@@ -226,10 +265,10 @@ def render_json_response(ret, status=200, headers={}):
 def wechat_oauth2(request):
     code = request.GET.get('code')
     if code:
-        params={'appid': WX_APPID,
-                'secret': WX_SECRET,
-                'code': code,
-                'grant_type': 'authorization_code'}
+        params = {'appid': WX_APPID,
+                  'secret': WX_SECRET,
+                  'code': code,
+                  'grant_type': 'authorization_code'}
         try:
             resp = requests.get('https://api.weixin.qq.com/sns/oauth2/access_token',
                                 params=params)
@@ -238,7 +277,8 @@ def wechat_oauth2(request):
             params = {'access_token': tokens['access_token'],
                       'openid': openid,
                       'lang': 'zh_CN'}
-            resp = requests.get('https://api.weixin.qq.com/sns/userinfo', params=params)
+            resp = requests.get(
+                'https://api.weixin.qq.com/sns/userinfo', params=params)
             user = json.loads(resp.content)
             try:
                 u = User.objects.get(username=openid[:30])
