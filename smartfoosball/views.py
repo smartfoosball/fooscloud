@@ -186,7 +186,7 @@ class GameHistoryView(BaseWeixinView):
 
         games = Game.objects.filter(query).order_by('-updated_at')
         page = request.GET.get('page', 1)
-        page_count = 3
+        page_count = 6
         games = dj_simple_pagination(games, page, page_count)
         return render_to_response('game_history.html', {'games': games, 'page': page})
 
@@ -200,7 +200,11 @@ class PlayerView(BaseWeixinView):
             players.append((i, win, lost))
         players = sorted(players, key=lambda x: x[2])
         players = sorted(players, key=lambda x: x[1], reverse=True)
-        ctx = {'players': players}
+        players = map(lambda pl:{'rank':pl[0], 'player': pl[1]}, enumerate(players))  # [player,player, ...] --> [{rank:player}, {rank:player}]
+        page = request.GET.get('page', 1)
+        page_count = 6
+        players = dj_simple_pagination(players, page, page_count)
+        ctx = {'players': players, 'page': page}
         return render_to_response('players.html', ctx)
 
 
