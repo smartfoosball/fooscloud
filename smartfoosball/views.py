@@ -87,7 +87,8 @@ class WechatEcho(View):
 class BaseWeixinView(View):
 
     def dispatch(self, *args, **kwargs):
-        if not self.request.user.is_authenticated():
+        if (not self.request.user.is_authenticated()) or\
+           (not hasattr(self.request.user, 'player')):
             redirect_uri = urllib.urlencode({
                 'redirect_uri':
                 'http://' + self.request.get_host() + reverse("wechat_oauth2") + '?next=' + self.request.path})
