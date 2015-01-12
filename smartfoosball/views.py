@@ -21,7 +21,8 @@ from gservice.client import GServiceClient
 import json
 import urllib
 import requests
-
+import logging
+logger = logging.getLogger('django')
 
 class Index(TemplateView):
     template_name = 'index.html'
@@ -292,6 +293,7 @@ def wechat_oauth2(request):
                            user=u)
                 p.save()
         except Exception, e:
+            logger.exception(e)
             return HttpResponse("authorize failed")
     return redirect(request.GET.get('next'))
 
