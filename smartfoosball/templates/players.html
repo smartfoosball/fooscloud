@@ -1,34 +1,44 @@
 {% extends "base.html" %}
-
 {% block title %}选手{% endblock %}
-
 {% block css %}
 <link rel="stylesheet" type="text/css" href="/static/css/players.css">
 {% endblock %}
-
 {%block body%}
 <div class="container">
-	<div>
-		<p class="text-right white">
-			点击右上角分享此页面 ↑️
-		</p>
-	</div>
-
-	{% for i in players %}
-	<div class="well">
-		<div class="row">
-			<table width="100%">
-				<tbody>
-					<tr>
-						<td class="w32">{{ forloop.counter }}</td>
-						<td class="w50"><img src="{{ i.0.headimgurl }}" class="img-circle img_size"></td>
-						<td class="text-left">{{ i.0.nickname }}</td>
-						<td align="right">胜 {{ i.1 }} / 负 {{ i.2 }}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	{% endfor %}
+    <div>
+        <p class="text-right white">
+            点击右上角分享此页面 ↑
+        </p>
+    </div>
+    {% for p in players %}
+    <div class="well">
+        <div class="row">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td class="w32">{{ p.rank|add:1 }}</td>
+                        <td class="w50"><img src="{{ p.player.0.headimgurl }}" class="img-circle img_size"></td>
+                        <td class="text-left">{{ p.player.0.nickname }}</td>
+                        <td align="right">胜 {{ p.player.1 }} / 负 {{ p.player.2 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+    <nav>
+        <ul class="pager">
+            {% if players.has_previous %}
+            <li class="previous"><a href="?page={{ page|add:-1}}">
+		<!-- <span aria-hidden="true">←</span> -->
+		上一页</a></li>
+            {% endif %}
+            {% if players.has_next %}
+            <li class="next"><a href="?page={{ page|add:1}}">下一页
+		<!-- <span aria-hidden="true">→</span> -->
+	    </a></li>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
 {%endblock%}
