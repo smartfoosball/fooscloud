@@ -199,7 +199,7 @@ class PlayerView(BaseWeixinView):
 
     def get(self, request):
         players = []
-        for i in Player.objects.all():
+        for i in Player.objects.filter(~Q(user=None)):
             win, lost = i.performance()
             players.append((i, win, lost))
         players = sorted(players, key=lambda x: x[2])
@@ -218,7 +218,7 @@ class MeView(BaseWeixinView):
         me = request.user.player
         win, lost = me.performance()
         performances = []
-        for i in Player.objects.all():
+        for i in Player.objects.filter(~Q(user=None)):
             w, l = i.performance()
             performances.append((i, w, l))
         performances = sorted(performances, key=lambda x: x[2])
