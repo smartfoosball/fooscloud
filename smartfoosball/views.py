@@ -144,8 +144,7 @@ class GameStartView(BaseWeixinView):
         for i in ['red_van', 'red_rear', 'blue_van', 'blue_rear']:
             if not getattr(game, i):
                 return redirect(reverse('game_detail', kwargs={'gid': game.id}))
-        playing = Game.objects.filter(status=Game.Status.playing.value).first()
-        if (not playing) and (game.status == Game.Status.waiting.value) and (
+        if (game.status == Game.Status.waiting.value) and (
                 request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
             game.status = Game.Status.playing.value
             game.save()
