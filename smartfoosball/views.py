@@ -70,11 +70,14 @@ class WechatEcho(View):
                         get_gservice_client2(settings.GW_APPID, settings.GW_USER, settings.GW_PWD).bind_device(
                             [(fb.did, fb.passcode)])
 
-                    p = Player.objects.get(openid=msg.source)
-                    p.foosball.add(fb)
+                    try:
+                        p = Player.objects.get(openid=msg.source)
+                    except Player.DoesNotExist:
+                        p = Player(openid=msg.source)
+                        p.save()
+                    finally:
+                        p.foosball.add(fb)
                 except FoosBall.DoesNotExist:
-                    pass
-                except Player.DoesNotExist:
                     pass
                 except Exception:
                     pass
@@ -280,6 +283,7 @@ def wechat_oauth2(request):
                 p.scope = tokens['scope']
                 p.nickname = user['nickname']
                 p.headimgurl = user['headimgurl']
+                p.user = u
                 p.save()
             except Player.DoesNotExist:
                 p = Player(openid=openid,
