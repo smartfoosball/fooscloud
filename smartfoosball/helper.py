@@ -1,9 +1,10 @@
-#coding:utf-8
+# coding:utf-8
 from models import GWUser
 from gservice.client import GServiceClient
-from django.conf import settings
 from datetime import datetime
 import time
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
+
 
 def request_gw_user(appid, user, pwd):
     _id = 1
@@ -26,3 +27,16 @@ def get_gservice_client2(appid, user, pwd):
     g = GServiceClient(appid)
     g.set_token(resp['token'])
     return g
+
+
+def dj_simple_pagination(datas, page=1, page_count=10):
+    paginator = Paginator(datas, page_count)
+    try:
+        datas = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        datas = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        datas = paginator.page(paginator.num_pages)
+    return datas

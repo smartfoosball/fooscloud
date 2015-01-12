@@ -1,5 +1,4 @@
 # coding:utf-8
-from django import forms
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.views.generic import View, TemplateView
@@ -7,7 +6,6 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from datetime import datetime
 from django.conf import settings
 from models import *
 from helper import *
@@ -16,14 +14,11 @@ from smartfoosball.models import *
 from smartfoosball.utils import get_qrcode
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
-from wechatpy.messages import TextMessage
 from wechatpy.replies import TextReply
 from wechatpy import parse_message, create_reply
 from gservice.client import GServiceClient
 
-import time
 import json
-import uuid
 import urllib
 import requests
 
@@ -71,7 +66,8 @@ class WechatEcho(View):
                         fb.did = did
                         fb.passcode = resp.get('passcode')
                         fb.save()
-                        get_gservice_client2(settings.GW_APPID,settings.GW_USER,settings.GW_PWD).bind_device([(fb.did, fb.passcode)])
+                        get_gservice_client2(settings.GW_APPID, settings.GW_USER, settings.GW_PWD).bind_device(
+                            [(fb.did, fb.passcode)])
 
                     p = Player.objects.get(openid=msg.source)
                     p.foosball.add(fb)
@@ -134,7 +130,7 @@ class GameDetailView(BaseWeixinView):
             settings.GW_APPID, settings.GW_USER, settings.GW_PWD)
         gw_obj = {'appid': settings.GW_APPID,
                   'uid': gw_user['uid'], 'token': gw_user['token']}
-        ctx = {'game': game, 'gw_obj': gw_obj, 'foosball_obj':game.foosball}
+        ctx = {'game': game, 'gw_obj': gw_obj, 'foosball_obj': game.foosball}
         ctx = RequestContext(request, ctx)
         return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 
@@ -143,7 +139,6 @@ class GameStartView(BaseWeixinView):
 
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
-        ctx = {'game': game}
         for i in ['red_van', 'red_rear', 'blue_van', 'blue_rear']:
             if not getattr(game, i):
                 return redirect(reverse('game_detail', kwargs={'gid': game.id}))
@@ -160,7 +155,6 @@ class GameEndView(BaseWeixinView):
 
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
-        ctx = {'game': game}
         if (game.status == Game.Status.playing.value) and (
                 request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
             game.status = Game.Status.end.value
@@ -170,7 +164,6 @@ class GameEndView(BaseWeixinView):
 
     def post(self, request, gid):
         game = get_object_or_404(Game, id=gid)
-        ctx = {'game': game}
         if (game.status == Game.Status.playing.value) and (
                 request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
             game.red_score = request.POST.get('red_score', 0)
@@ -190,8 +183,12 @@ class GameHistoryView(BaseWeixinView):
             player = int(player)
             query &= (Q(red_van__id=player) | Q(red_rear__id=player) | Q(
                 blue_van__id=player) | Q(blue_rear__id=player))
-        games = Game.objects.filter(query).order_by('-updated_at')[:10]
-        return render_to_response('game_history.html', {'games': games})
+
+        games = Game.objects.filter(query).order_by('-updated_at')
+        page = request.GET.get('page', 1)
+        page_count = 3
+        games = dj_simple_pagination(games, page, page_count)
+        return render_to_response('game_history.html', {'games': games, 'page': page})
 
 
 class PlayerView(BaseWeixinView):
