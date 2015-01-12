@@ -68,7 +68,7 @@
 
 		</table>
 		<div class="panel-footer">
-		  <form method="POST" action="/games/{{game.id}}/end">
+		  <form id="form_end_game" method="POST" action="/games/{{game.id}}/end">
 		    {% csrf_token %}
 			<p class="text-center center-block" style="background-image:url(/static/images/score_board_bg.png);background-repeat:no-repeat; width:150px; height:37px;">
 			  <span style="font-size:25px;color:red;" id="red_score"> {{ game.red_score }} </span>
@@ -160,6 +160,9 @@ function connect() {
 			var blue = data["data"]["attrs"]["blue_goals"];
                         update_score("#red_score", red);
                         update_score("#blue_score", blue);
+                        if (red == 10 || blue == 10) {
+                            $("#form_end_game").submit();
+                        }
 		}
 	}
 	ws.onerror = function(event) {
