@@ -25,6 +25,7 @@ import requests
 import logging
 logger = logging.getLogger('django')
 
+
 class Index(TemplateView):
     template_name = 'index.html'
 
@@ -137,10 +138,10 @@ class GameDetailView(BaseWeixinView):
         gw_obj = {'appid': settings.GW_APPID,
                   'uid': gw_user['uid'], 'token': gw_user['token']}
         ctx = {'game': game, 'gw_obj': gw_obj, 'foosball_obj': game.foosball}
-        due_two_mins = datetime.utcnow() - timedelta(minutes=2)
-        if due_two_mins <game.updated_at.replace(tzinfo=None) and game.get_status_display() == 'end':
+        expires = datetime.utcnow() - timedelta(minutes=2)
+        if expires < game.updated_at.replace(tzinfo=None) and game.get_status_display() == 'end':
             if request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]:
-                ctx.update({'restart':True})
+                ctx.update({'restart': True})
         ctx = RequestContext(request, ctx)
         return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 
@@ -209,7 +210,9 @@ class PlayerView(BaseWeixinView):
             players.append((i, win, lost))
         players = sorted(players, key=lambda x: x[2])
         players = sorted(players, key=lambda x: x[1], reverse=True)
-        players = map(lambda pl:{'rank':pl[0], 'player': pl[1]}, enumerate(players))  # [player,player, ...] --> [{rank:player}, {rank:player}]
+        # [player,player, ...] --> [{rank:player}, {rank:player}]
+        players = map(
+            lambda pl: {'rank': pl[0], 'player': pl[1]}, enumerate(players))
         page = request.GET.get('page', 1)
         page_count = 10
         players = dj_simple_pagination(players, page, page_count)
@@ -246,19 +249,20 @@ class GameScoreView(View):
 
 
 class GameRestartView(View):
+
     def get(self, request, gid):
-        due_two_mins = datetime.utcnow() - timedelta(minutes=2)
-        game = get_object_or_404(Game, id=gid, updated_at__gt=due_two_mins)
+        expires = datetime.utcnow() - timedelta(minutes=2)
+        game = get_object_or_404(Game, id=gid, updated_at__gt=expires)
         fb = get_object_or_404(FoosBall, id=game.foosball.id)
-        re_game = Game()
-        re_game.foosball=fb
-        re_game.red_van = game.red_van
-        re_game.red_rear = game.red_rear
-        re_game.blue_van = game.blue_van
-        re_game.blue_rear = game.blue_rear
-        re_game.status=Game.Status.playing.value
-        re_game.save()
-        return redirect(reverse('game_detail', kwargs={'gid': re_game.id}))
+        new_game = Game()
+        new_game.foosball = fb
+        new_game.red_van = game.red_van
+        new_game.red_rear = game.red_rear
+        new_game.blue_van = game.blue_van
+        new_game.blue_rear = game.blue_rear
+        new_game.status = Game.Status.playing.value
+        new_game.save()
+        return redirect(reverse('game_detail', kwargs={'gid': new_game.id}))
 
 
 def render_json_response(ret, status=200, headers={}):
