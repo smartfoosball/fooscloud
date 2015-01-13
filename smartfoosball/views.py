@@ -260,7 +260,7 @@ class GameRestartView(View):
         new_game.red_rear = game.red_rear
         new_game.blue_van = game.blue_van
         new_game.blue_rear = game.blue_rear
-        new_game.status = Game.Status.playing.value
+        new_game.status = Game.Status.waiting.value
         new_game.save()
         return redirect(reverse('game_detail', kwargs={'gid': new_game.id}))
 
