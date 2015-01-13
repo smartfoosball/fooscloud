@@ -22,7 +22,8 @@ from datetime import datetime, timedelta
 import json
 import urllib
 import requests
-
+import logging
+logger = logging.getLogger('django')
 
 class Index(TemplateView):
     template_name = 'index.html'
@@ -70,11 +71,14 @@ class WechatEcho(View):
                         get_gservice_client2(settings.GW_APPID, settings.GW_USER, settings.GW_PWD).bind_device(
                             [(fb.did, fb.passcode)])
 
-                    p = Player.objects.get(openid=msg.source)
-                    p.foosball.add(fb)
+                    try:
+                        p = Player.objects.get(openid=msg.source)
+                    except Player.DoesNotExist:
+                        p = Player(openid=msg.source)
+                        p.save()
+                    finally:
+                        p.foosball.add(fb)
                 except FoosBall.DoesNotExist:
-                    pass
-                except Player.DoesNotExist:
                     pass
                 except Exception:
                     pass
@@ -148,8 +152,7 @@ class GameStartView(BaseWeixinView):
         for i in ['red_van', 'red_rear', 'blue_van', 'blue_rear']:
             if not getattr(game, i):
                 return redirect(reverse('game_detail', kwargs={'gid': game.id}))
-        playing = Game.objects.filter(status=Game.Status.playing.value).first()
-        if (not playing) and (game.status == Game.Status.waiting.value) and (
+        if (game.status == Game.Status.waiting.value) and (
                 request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]):
             game.status = Game.Status.playing.value
             game.save()
@@ -201,7 +204,7 @@ class PlayerView(BaseWeixinView):
 
     def get(self, request):
         players = []
-        for i in Player.objects.all():
+        for i in Player.objects.filter(~Q(user=None)):
             win, lost = i.performance()
             players.append((i, win, lost))
         players = sorted(players, key=lambda x: x[2])
@@ -220,7 +223,7 @@ class MeView(BaseWeixinView):
         me = request.user.player
         win, lost = me.performance()
         performances = []
-        for i in Player.objects.all():
+        for i in Player.objects.filter(~Q(user=None)):
             w, l = i.performance()
             performances.append((i, w, l))
         performances = sorted(performances, key=lambda x: x[2])
@@ -301,6 +304,7 @@ def wechat_oauth2(request):
                 p.scope = tokens['scope']
                 p.nickname = user['nickname']
                 p.headimgurl = user['headimgurl']
+                p.user = u
                 p.save()
             except Player.DoesNotExist:
                 p = Player(openid=openid,
@@ -313,6 +317,7 @@ def wechat_oauth2(request):
                            user=u)
                 p.save()
         except Exception, e:
+            logger.exception(e)
             return HttpResponse("authorize failed")
     return redirect(request.GET.get('next'))
 
