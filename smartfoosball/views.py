@@ -251,18 +251,29 @@ class GameScoreView(View):
 class GameRestartView(View):
 
     def get(self, request, gid):
-        expires = datetime.utcnow() - timedelta(minutes=2)
-        game = get_object_or_404(Game, id=gid, updated_at__gt=expires)
-        fb = get_object_or_404(FoosBall, id=game.foosball.id)
-        new_game = Game()
-        new_game.foosball = fb
-        new_game.red_van = game.red_van
-        new_game.red_rear = game.red_rear
-        new_game.blue_van = game.blue_van
-        new_game.blue_rear = game.blue_rear
-        new_game.status = Game.Status.waiting.value
-        new_game.save()
-        return redirect(reverse('game_detail', kwargs={'gid': new_game.id}))
+        old_game = get_object_or_404(Game, id=gid, updated_at__gt=expires)
+        game = old_game.foosball.get_game()
+        if game.status == Game.Status.waiting.value:
+            def none_players_game(_game):
+                all_none = True
+                for p in ['red_van', 'red_rear', 'blue_van', 'blue_rear']:
+                    if getattr(_game, p) is not None:
+                        all_none = False
+                        break
+                return all_none
+            if none_players_game(game):
+                game.red_van = game.red_van
+                game.red_rear = game.red_rear
+                game.blue_van = game.blue_van
+                game.blue_rear = game.blue_rear
+                game.save()
+            else:
+                # 有Waiting的比赛但被其他人占啦位置
+                pass
+        else:
+            # 有一个正在playing的比赛所以也无法创建新比赛了
+            pass
+        return redirect(reverse('game_detail', kwargs={'gid': game.id}))
 
 
 def render_json_response(ret, status=200, headers={}):
