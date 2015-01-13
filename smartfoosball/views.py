@@ -18,6 +18,7 @@ from wechatpy.replies import TextReply
 from wechatpy import parse_message, create_reply
 from gservice.client import GServiceClient
 
+from datetime import datetime, timedelta
 import json
 import urllib
 import requests
@@ -132,6 +133,10 @@ class GameDetailView(BaseWeixinView):
         gw_obj = {'appid': settings.GW_APPID,
                   'uid': gw_user['uid'], 'token': gw_user['token']}
         ctx = {'game': game, 'gw_obj': gw_obj, 'foosball_obj': game.foosball}
+        due_two_mins = datetime.utcnow() - timedelta(minutes=2)
+        if due_two_mins <game.updated_at.replace(tzinfo=None) and game.get_status_display() == 'end':
+            if request.user.player in [game.red_rear, game.red_van, game.blue_rear, game.blue_van]:
+                ctx.update({'restart':True})
         ctx = RequestContext(request, ctx)
         return render_to_response('game_%s.html' % game.get_status_display(), ctx)
 
@@ -235,6 +240,22 @@ class GameScoreView(View):
     def get(self, request, gid):
         game = get_object_or_404(Game, id=gid)
         return render_json_response({"red_score": game.red_score, "blue_score": game.blue_score})
+
+
+class GameRestartView(View):
+    def get(self, request, gid):
+        due_two_mins = datetime.utcnow() - timedelta(minutes=2)
+        game = get_object_or_404(Game, id=gid, updated_at__gt=due_two_mins)
+        fb = get_object_or_404(FoosBall, id=game.foosball.id)
+        re_game = Game()
+        re_game.foosball=fb
+        re_game.red_van = game.red_van
+        re_game.red_rear = game.red_rear
+        re_game.blue_van = game.blue_van
+        re_game.blue_rear = game.blue_rear
+        re_game.status=Game.Status.playing.value
+        re_game.save()
+        return redirect(reverse('game_detail', kwargs={'gid': re_game.id}))
 
 
 def render_json_response(ret, status=200, headers={}):

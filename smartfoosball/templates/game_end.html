@@ -40,9 +40,15 @@
 			<img class="img-circle img_size score_float" style="margin-top: 150px; margin-left: 15px;"  src="{{ game.blue_rear.headimgurl }}"/>
 		</div>
 		<div class="panel-footer">
-			<p>
+			<p  class="pull-left">
 				红队以 {{ game.red_score }} : {{ game.blue_score }} 的比分击败了蓝队!
 			</p>
+			<p class="pull-right">
+			    {% if restart %}
+			    <a class="btn btn-default btn-xs" href="/games/{{game.id}}/restart" role="button">再来一局</a>
+			    {% endif %}
+			</p>
+			<div class="clearfix"></div>
 		</div>
 		{% else %}
 		<div style="display:block;background-image:url(/static/images/winer250.png);width:250px;height:245px;background-repeat: no-repeat;" class="center-block">
@@ -52,13 +58,20 @@
 			<img class="img-circle img_size score_float" style="margin-top: 150px; margin-left: 15px;" src="{{ game.red_rear.headimgurl }}"/>
 		</div>
 		<div class="panel-footer">
-			<p>
+			<p  class="pull-left">
 				蓝队以 {{ game.blue_score }} : {{ game.red_score }} 的比分击败了红队!
 			</p>
+			<p class="pull-right">
+			    {% if restart %}
+			    <a class="btn btn-default btn-xs" href="/games/{{game.id}}/restart" role="button">再来一局</a>
+			    {% endif %}
+			</p>
+			<div class="clearfix"></div>
 		</div>
-
 		{% endif %}
+
 	</div>
+
 </div>
 {% endblock %}
 
