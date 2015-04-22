@@ -52,7 +52,7 @@ class Player(models.Model):
     foosball = models.ManyToManyField(FoosBall)
 
     def __unicode__(self):
-        return self.nickname
+        return unicode(self.nickname)
 
     def partners(self):
         query = (Q(red_van=self) | Q(red_rear=self) | Q(blue_van=self) | Q(blue_rear=self)) & Q(status=Game.Status.end.value)
