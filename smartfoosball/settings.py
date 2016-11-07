@@ -93,6 +93,8 @@ USE_TZ = True
 
 STATIC_URL = env('STATIC_URL', '/static/')
 
+STATIC_ROOT = env("STATIC_ROOT", os.path.join(BASE_DIR, 'static'))
+
 MEDIA_URL = env('MEDIA_URL', '/media/')
 
 TOKEN = env('TOKEN', '')
