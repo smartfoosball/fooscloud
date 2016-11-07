@@ -63,3 +63,4 @@ local_settings.py
 .DS_Store
 
 qrcode
+.idea
