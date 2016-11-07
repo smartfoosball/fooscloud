@@ -4,8 +4,8 @@ MAINTAINER Robert Zheng <rzheng@xtremeprog.com>
 
 RUN mkdir -p /app
 WORKDIR /app
-RUN pip install -r deploy/requirements.txt
 ADD . /app
+RUN pip install -r deploy/requirements.txt
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD app.conf /etc/nginx/sites-available/app
 RUN ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled/
