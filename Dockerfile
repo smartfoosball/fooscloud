@@ -1,4 +1,4 @@
-FROM registry.gizwits.com/gizwits2015/gizwits-python:latest
+FROM ax003d/docker-python:latest
 
 MAINTAINER Robert Zheng <rzheng@xtremeprog.com>
 
