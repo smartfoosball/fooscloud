@@ -64,6 +64,8 @@ DATABASES = {
     'default': dj_database_url.parse(
         env("DATABASE_URI", "mysql://root:root@localhost:3306/foosball")),
 }
+# store emoji
+DATABASES['default']['OPTIONS'] = {'charset': 'utf8mb4'}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
