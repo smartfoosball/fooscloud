@@ -24,7 +24,7 @@ serverurl=unix:///data/supervisor/supervisor.sock ; use a unix:// URL  for a uni
 ; interpreted as relative to this file.  Included files *cannot*
 ; include files themselves.
 
-[program:gwapi]
+[program:app]
 command=uwsgi -s 127.0.0.1:9000 --file /app/smartfoosball/wsgi.py --callable application --processes 5 --threads 10 -t 60 -M --need-app -b 32768
 stopsignal=INT
 
