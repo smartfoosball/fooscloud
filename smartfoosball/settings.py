@@ -6,6 +6,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
+import dotenv
+dotenv.read_dotenv()
+
+import dj_database_url
+from getenv import env
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -22,7 +28,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,15 +61,8 @@ WSGI_APPLICATION = 'smartfoosball.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'foosball',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    }
+    'default': dj_database_url.parse(
+        env("DATABASE_URI", "mysql://root:root@localhost:3306/foosball")),
 }
 
 # Internationalization
@@ -92,7 +91,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-try:
-    from local_settings import *
-except ImportError:
-    pass
+TOKEN = env('TOKEN', '')
+WX_APPID = env('WX_APPID', '')
+WX_SECRET = env('WX_SECRET', '')
+
+PRODUCT_KEY = env('PRODUCT_KEY', '')
+GW_APPID = env('GW_APPID', '')
+GW_USER = env('GW_USER', '')
+GW_PWD = env('GW_PWD', '')
